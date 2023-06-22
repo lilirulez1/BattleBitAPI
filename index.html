@@ -527,19 +527,21 @@
                                 Servers: 1
                             })
                         }
-
-                        const OverviewData = {
-                            "server-count": Data.length,
-                            "player-count": totalPlayers,
-                            "official-servers": officialServers,
-                            "unofficial-servers": Data.length - officialServers,
-                            "maps": maps,
-                            "gamemodes": gamemodes,
-                            "regions": regions,
-                            "day": day,
-                            "night": night
-                        }
                     })
+
+                    const OverviewData = {
+                        "server-count": Data.length,
+                        "player-count": totalPlayers,
+                        "official-servers": officialServers,
+                        "unofficial-servers": Data.length - officialServers,
+                        "maps": maps,
+                        "gamemodes": gamemodes,
+                        "regions": regions,
+                        "day": day,
+                        "night": night
+                    }
+
+                    console.log(OverviewData)
               })
         </script>
     </body>
