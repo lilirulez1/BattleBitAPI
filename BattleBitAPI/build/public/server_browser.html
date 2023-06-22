@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>BattleBit</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+
+        <style>
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgb(25,25,25); 
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888; 
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+            }
+
+            body {
+                background-color: rgb(25,25,25);
+                padding: 0;
+                margin: 0;
+                height: 100vh;
+                width: 100vw;
+                color: white;
+                overflow-x: hidden;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            main {
+                padding: 2rem;
+                padding-top: 1rem;
+            }
+
+            #server-browser {
+                padding-bottom: 2rem;
+                margin: 0 auto;
+            }
+
+            .server-browser-header > * {
+                margin: 0 0;
+                margin-bottom: 1rem;
+            }
+
+            thead > tr > .server-info {
+                width: 80%;
+                text-align: left;
+            }
+
+            .player-count {
+                white-space: nowrap;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .server-hz {
+                border-right: 0;
+                white-space: nowrap;
+                width: 5%;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .servers-list {
+                align-self: flex-start;
+                border-collapse: collapse;
+                width: 75%;
+            }
+
+            .server-item {
+                background-color: rgb(15,15,15);
+            }
+
+            .server-item > .server-info {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .server {
+                border-left: 0;
+                width: 100%;
+            }
+
+            .server-details {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 24px;
+                color: rgb(50,50,50);
+                font-weight: 400;
+                font-size: small;
+            }
+
+            .server-details > * {
+                padding: 0.25rem;
+            }
+
+            .region-flag > img {
+                height: 24px;
+                margin: 0 auto;
+            }
+
+            .region-flag {
+                height: 24px;
+            }
+
+            th {
+                padding: 0.25rem;
+                background-color: rgb(15,15,15);
+            }
+
+            td {
+                padding: 0.25rem;
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .server-name {
+                font-weight: 700;
+            }
+
+            .server-thumbnail {
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .map-thumbnail {
+                object-fit: cover;
+                display: block;
+                width: 45px;
+                height: 45px;
+            }
+
+            .map-span {
+                height: 45px;
+                margin-right: 0.25rem;
+            }
+
+            #servers {
+                margin-top: 0.25rem;
+                display: flex;
+                flex-direction: row;
+            }
+
+            aside {
+                position: sticky;
+                top: 2rem;
+                margin-top: 2px;
+                align-self: flex-start;
+                width: 22.5%;
+                margin-left: 2.5%;
+                float: right;
+            }
+
+            .quick-info {
+                position: relative;
+                margin-bottom: 2rem;
+            }
+
+            .quick-info-banner {
+                width: 100%;
+                margin-right: 0px;
+            }
+
+            .quick-info-server-name {
+                position: absolute;
+                left: 1rem;
+                top: 1rem;
+                font-weight: 200;
+                font-size: large;
+                color: rgb(200,200,200);
+                mix-blend-mode: luminosity;
+            }
+
+            .quick-info-map-name {
+                position: absolute;
+                left: 1rem;
+                bottom: 2.5rem;
+                font-weight: 600;
+                font-size: xx-large;
+            }
+
+            .quick-info-map-misc {
+                position: absolute;
+                left: 1rem;
+                bottom: 1rem;
+                font-weight: 200;
+                font-size: large;
+                color: rgb(200, 200, 200);
+            }
+
+            .more-info-container {
+                box-sizing: border-box;
+                background-color: rgb(15,15,15);
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .more-info {
+                border-collapse: collapse;
+                width: 100%;
+                height: 100%;
+            }
+
+            .more-info > tbody > tr > td {
+                border: 0px solid white;
+            }
+
+            .server-info-key {
+                font-weight: 300;
+                font-size: medium;
+                color: rgb(200, 200, 200);
+            }
+
+            .server-info-value {
+                font-weight: 500;
+                font-size: medium;
+                color: rgb(250, 250, 250);
+            }
+
+            .float-left {
+                float: left;
+            }
+
+            .float-right {
+                float: right;
+            }
+            
+            footer {
+                color: rgb(35,35,35);
+                padding: 1em;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                background-color: rgb(15,15,15);
+                width: 100%;
+            }
+
+            footer > * {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section id="server-browser">
+                <header class="server-browser-header">
+                    <h1>
+                        SERVER BROWSER
+                    </h1>
+                </header>
+
+                <section id="servers">
+                    <table class="servers-list">
+                        <thead>
+                            <tr>
+                                <th class="server-info" colspan="2">
+                                    NAME
+                                </th>
+                                <th class="player-count">
+                                    <a>PLAYERS</a>
+                                </th>
+                                <th class="server-hz">
+                                    <a>TICK</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="servers-list-tbody">
+
+                        </tbody>
+                    </table>
+
+                    <aside>
+                        <div class="aside-server-info" id="aside-server-info" style="display: none;">
+                            <div class="quick-info" id="quick-info">
+                                <img class="quick-info-banner" id="quick-info-banner" src="">
+                                <div class="quick-info-server-name" id="quick-info-server-name">N/A</div>
+                                <div class="quick-info-map-name" id="quick-info-map-name">N/A</div>
+                                <div class="quick-info-map-misc" id="quick-info-map-misc">
+                                    <span id="quick-info-map-gamemode">N/A</span>
+                                    |
+                                    <span id="quick-info-map-size">N/A</span>
+                                </div>
+                            </div>
+                            <div class="more-info-container">
+                                <table class="more-info">
+                                    <tbody>
+                                        <tr>
+                                            <td class="server-info-key">Players:</td>
+                                            <td class="float-right server-info-value" id="Players">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">MaxPlayers:</td>
+                                            <td class="float-right server-info-value" id="MaxPlayers">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Queue:</td>
+                                            <td class="float-right server-info-value" id="Queue">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">DayNight:</td>
+                                            <td class="float-right server-info-value" id="DayNight">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Region:</td>
+                                            <td class="float-right server-info-value" id="Region">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Tick:</td>
+                                            <td class="float-right server-info-value" id="Tick">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Official</td>
+                                            <td class="float-right server-info-value" id="IsOfficial">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Password:</td>
+                                            <td class="float-right server-info-value" id="HasPassword">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">AntiCheat:</td>
+                                            <td class="float-right server-info-value" id="AntiCheat">N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="server-info-key">Build:</td>
+                                            <td class="float-right server-info-value" id="Build">N/A</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </aside>
+                </section>
+            </section>
+
+            <footer>
+                <h4>Made by @lili2</h4>
+            </footer>
+        </main>
+
+        <template id="server-item-template">
+            <tr class="server-item">
+                <td class="server-thumbnail">
+                    <img class="map-thumbnail" src=""> 
+                </td>
+                <td class="server">
+                    <div class="server-name">177-8V-12</div>
+                    <div class="server-details">
+                        <span class="region-flag">
+                            <img src="">
+                        </span>
+                        <span class="map">WAKISTAN</span>
+                        |
+                        <span class="gamemode">DOMI</span>
+                        |
+                        <span class="anticheat">EAC</span>
+                    </div>
+                </td>
+                <td class="player-count">
+                    64 / 64 (2)
+                </td>
+                <td class="server-hz">
+                    60
+                </td>
+            </tr>
+        </template>
+
+        <script>
+            let width = screen.width;
+
+            const ServerBrowser = document.getElementById("server-browser");
+            ServerBrowser.style.width = width/2 + "px";
+
+            const ServerListTBody = document.getElementById("servers-list-tbody")
+            const ServerItemTemplate = document.getElementById("server-item-template");
+
+            const AsideServerInfo = document.getElementById("aside-server-info")
+            const QuickInfo = document.getElementById("quick-info")
+            const QuickInfoBanner = document.getElementById("quick-info-banner")
+            const QuickInfoServerName = document.getElementById("quick-info-server-name")
+            const QuickInfoMapName = document.getElementById("quick-info-map-name")
+            const QuickInfoMapGamemode = document.getElementById("quick-info-map-gamemode")
+            const QuickInfoMapSize = document.getElementById("quick-info-map-size")
+
+            const MoreInfoPlayers = document.getElementById("Players")
+            const MoreInfoMaxPlayers = document.getElementById("MaxPlayers")
+            const MoreInfoQueue = document.getElementById("Queue")
+            const MoreInfoDayNight = document.getElementById("DayNight")
+            const MoreInfoRegion = document.getElementById("Region")
+            const MoreInfoTick = document.getElementById("Tick")
+            const MoreInfoIsOfficial = document.getElementById("IsOfficial")
+            const MoreInfoHasPassword = document.getElementById("HasPassword")
+            const MoreInfoAntiCheat = document.getElementById("AntiCheat")
+            const MoreInfoBuild = document.getElementById("Build")
+
+            var Selected = null;
+
+            fetch("http://127.0.0.1:3000/servers")
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(Server => {
+                        const clone = ServerItemTemplate.content.cloneNode(true);
+
+                        const ServerItem = clone.querySelector("tr.server-item")
+                        let td = clone.querySelectorAll("td");
+
+                        const serverThumbnail = td[0]
+                        const serverDetailsContainer = td[1]
+                        const serverPlayerCount = td[2]
+                        const serverHz = td[3]
+
+                        const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
+
+                        const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
+                        const ServerName = serverDetailsContainer.querySelector("div.server-name")
+                        const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
+                        const RegionFlag = RegionFlagContainer.querySelector("img")
+                        const ServerMap = ServerDetails.querySelector("span.map")
+                        const ServerGamemode = ServerDetails.querySelector("span.gamemode")
+                        const ServerAnticheat = ServerDetails.querySelector("span.anticheat")
+
+                        ServerName.innerText = Server.Name
+                        ServerMap.innerText = Server.Map.toUpperCase()
+                        ServerGamemode.innerText = Server.Gamemode.toUpperCase()
+                        ServerAnticheat.innerText = Server.AntiCheat
+                        serverPlayerCount.innerText = Server.Players + " / " + Server.MaxPlayers
+                        if (Server.QueuePlayers > 0) {
+                            serverPlayerCount.innerText += " (" + Server.QueuePlayers + ")"
+                        }
+                        serverHz.innerText = Server.Hz
+                        MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + Server.Map + ".png"
+                        RegionFlag.src = "http://127.0.0.1:3000/images/?path=flags/" + Server.Region + ".png"
+
+                        ServerItem.addEventListener("mouseenter", e => {
+                            e.preventDefault();
+                            
+                            if (ServerItem !== Selected) {
+                                ServerItem.style.backgroundColor = "rgb(10,10,10)";
+                            }
+                        })
+
+                        ServerItem.addEventListener("mouseleave", e => {
+                            e.preventDefault();
+
+                            if (ServerItem !== Selected) {
+                                ServerItem.style.backgroundColor = "rgb(15,15,15)";
+                            }
+                        })
+
+                        ServerItem.addEventListener("click", e => {
+                            e.preventDefault();
+
+                            if (Selected) {
+                                Selected.style.backgroundColor = "rgb(15,15,15)";
+                                Selected.querySelector('div.server-name').style.color = 'white';
+                            Selected.querySelector('td.player-count').style.color = 'white';
+                            Selected.querySelector('td.server-hz').style.color = 'white';
+                            }
+
+                            Selected = ServerItem;
+                            Selected.style.backgroundColor = "rgb(225,225,225)";
+                            Selected.querySelector('div.server-name').style.color = 'rgb(50,50,50)';
+                            Selected.querySelector('td.player-count').style.color = 'rgb(50,50,50)';
+                            Selected.querySelector('td.server-hz').style.color = 'rgb(50,50,50)';
+
+                            fetch("http://127.0.0.1:3000/server?name=" + Server.Name)
+                                .then(response => response.json())
+                                .then(UpdatedServer => {
+                                    AsideServerInfo.style.display = "block";
+                                    QuickInfoBanner.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + UpdatedServer.Map + ".png"
+                                    QuickInfoServerName.innerText = UpdatedServer.Name.toUpperCase()
+                                    QuickInfoMapName.innerText = UpdatedServer.Map.toUpperCase()
+                                    QuickInfoMapGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
+                                    QuickInfoMapSize.innerText = UpdatedServer.MapSize.toUpperCase()
+
+                                    MoreInfoPlayers.innerText = UpdatedServer.Players
+                                    MoreInfoMaxPlayers.innerText = UpdatedServer.MaxPlayers
+                                    MoreInfoQueue.innerText = UpdatedServer.QueuePlayers
+                                    MoreInfoDayNight.innerText = UpdatedServer.DayNight
+                                    MoreInfoRegion.innerText = UpdatedServer.Region
+                                    MoreInfoTick.innerText = UpdatedServer.Hz
+                                    MoreInfoIsOfficial.innerText = UpdatedServer.IsOfficial
+                                    MoreInfoHasPassword.innerText = UpdatedServer.HasPassword 
+                                    MoreInfoAntiCheat.innerText = UpdatedServer.AntiCheat
+                                    MoreInfoBuild.innerText = UpdatedServer.Build
+                                    
+                                    ServerMap.innerText = UpdatedServer.Map.toUpperCase()
+                                    ServerGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
+                                    serverPlayerCount.innerText = UpdatedServer.Players + " / " + UpdatedServer.MaxPlayers
+                                    if (UpdatedServer.QueuePlayers > 0) {
+                                        serverPlayerCount.innerText += " (" + UpdatedServer.QueuePlayers + ")"
+                                    }
+                                    MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + UpdatedServer.Map + ".png"   
+                                })
+                        })
+
+
+                        ServerListTBody.appendChild(clone);
+                    })
+                })
+        </script>
+    </body>
+</html>

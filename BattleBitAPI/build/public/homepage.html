@@ -28,7 +28,7 @@
 
             body {
                 background-color: rgb(25,25,25);
-                padding: 0;
+                padding: 0 0;
                 margin: 0;
                 height: 100vh;
                 width: 100vw;
@@ -39,200 +39,214 @@
 
             main {
                 padding: 2rem;
-                padding-top: 1rem;
+                padding-bottom: 6rem;
             }
 
-            #server-browser {
-                padding-bottom: 2rem;
+            .main-nav-container {
+                background-color: rgb(15,15,15);
+                padding: 1rem 0;
+            }
+
+            .main-nav {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                width: 50%;
                 margin: 0 auto;
             }
 
-            .server-browser-header > * {
-                margin: 0 0;
-                margin-bottom: 1rem;
-            }
-
-            thead > tr > .server-info {
-                width: 80%;
-                text-align: left;
-            }
-
-            .player-count {
-                white-space: nowrap;
-                text-align: center;
-                padding: 0 1rem;
-            }
-
-            .server-hz {
-                border-right: 0;
-                white-space: nowrap;
-                width: 5%;
-                text-align: center;
-                padding: 0 1rem;
-            }
-
-            .servers-list {
-                align-self: flex-start;
-                border-collapse: collapse;
-                width: 75%;
-            }
-
-            .server-item {
-                background-color: rgb(15,15,15);
-            }
-
-            .server-item > .server-info {
+            .main-nav > h1 {
                 display: flex;
-                flex-direction: row;
-            }
-
-            .server {
-                border-left: 0;
-                width: 100%;
-            }
-
-            .server-details {
-                display: flex;
-                flex-direction: row;
                 align-items: center;
-                height: 24px;
-                color: rgb(50,50,50);
-                font-weight: 400;
-                font-size: small;
-            }
-
-            .server-details > * {
-                padding: 0.25rem;
-            }
-
-            .region-flag > img {
-                height: 24px;
-                margin: 0 auto;
-            }
-
-            .region-flag {
-                height: 24px;
-            }
-
-            th {
-                padding: 0.25rem;
-                background-color: rgb(15,15,15);
-            }
-
-            td {
-                padding: 0.25rem;
-                border: 2px solid rgb(25,25,25);
-            }
-
-            .server-name {
-                font-weight: 700;
-            }
-
-            .server-thumbnail {
-                border-left: 0;
-                border-right: 0;
-            }
-
-            .map-thumbnail {
-                display: block;
-                height: 45px;
-            }
-
-            .map-span {
-                height: 45px;
-                margin-right: 0.25rem;
-            }
-
-            #servers {
-                margin-top: 0.25rem;
-                display: flex;
-                flex-direction: row;
-            }
-
-            aside {
-                position: sticky;
-                top: 2rem;
-                margin-top: 2px;
-                align-self: flex-start;
-                width: 22.5%;
-                margin-left: 2.5%;
-                float: right;
-            }
-
-            .quick-info {
-                position: relative;
-                margin-bottom: 2rem;
-            }
-
-            .quick-info-banner {
-                width: 100%;
-                margin-right: 0px;
-            }
-
-            .quick-info-server-name {
-                position: absolute;
-                left: 1rem;
-                top: 1rem;
-                font-weight: 200;
-                font-size: large;
-                color: rgb(200,200,200);
-                mix-blend-mode: luminosity;
-            }
-
-            .quick-info-map-name {
-                position: absolute;
-                left: 1rem;
-                bottom: 2.5rem;
-                font-weight: 600;
+                justify-content: center;
+                text-align: center;
                 font-size: xx-large;
+                margin: 0 0;
             }
 
-            .quick-info-map-misc {
-                position: absolute;
-                left: 1rem;
-                bottom: 1rem;
-                font-weight: 200;
-                font-size: large;
-                color: rgb(200, 200, 200);
+            .main-nav-redirects-container {
+                margin: 0 0;
+                list-style: none;
+                display: table;
             }
 
-            .more-info-container {
-                box-sizing: border-box;
-                background-color: rgb(15,15,15);
-                width: 100%;
-                padding: 1rem;
-            }
-
-            .more-info {
-                border-collapse: collapse;
-                width: 100%;
+            .main-nav-redirects-container > li {
+                vertical-align: middle;
+                display: table-cell;
+                float: left;
                 height: 100%;
             }
 
-            .more-info > tbody > tr > td {
-                border: 0px solid white;
-            }
-
-            .server-info-key {
+            .main-nav-redirects-container > li > a {
+                color: rgb(200,200,200);
                 font-weight: 300;
-                font-size: medium;
-                color: rgb(200, 200, 200);
+                display: block;
+                text-align: center;
+                padding: 1rem 1rem;
             }
 
-            .server-info-value {
+            .main-nav-redirects-container > li > a:hover {
+                color: rgb(250,250,250);
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+
+            #overview {
+                margin: 0 auto;
+            }
+
+           #overview > section > h1 {
+                margin: 1rem 0 0.5rem 0; /* top right bottom left*/
+                font-size: x-large;
+                font-weight: 500;
+            }
+
+            #minimal-stats {
+                margin: 0 auto;
+            }
+
+            .minimal-stats-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .minimal-stats-grid > div {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .minimal-stats-grid > div > a {
+                text-align: center;
+            }
+
+            .minimal-stats-grid > div > a > h1 {
+                font-size: xx-large;
+                margin: 1rem 0 0 0;
+            }
+
+            .minimal-stats-grid > div > a > p {
+                font-weight: 400;
+                color: rgb(50,50,50);
+                margin: 0.5rem 0 0.5rem 0;
+            }
+
+            #map-stats {
+                margin: 0 auto;
+            }
+
+            .map-stats-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .map-stats-grid > div {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+                position: relative;
+            }
+
+            .map-stats-grid > div > a {
+                height: 100%;
+                display: block;
+            }
+
+            .map-stats-grid > div > div {
+                padding: 1rem;
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+            }
+
+            .map-stats-grid > div > div > h1 {
+                margin: 0;
+                font-weight: 600;
+                font-size: xx-large;
+            }
+            
+            .map-stats-grid > div > div > table {
+                width: 100%;
+            }
+
+            .map-stats-grid > div > div > table > tbody > tr > td > .float-right {
                 font-weight: 500;
                 font-size: medium;
                 color: rgb(250, 250, 250);
-            }
-
-            .float-left {
-                float: left;
-            }
+            } 
 
             .float-right {
                 float: right;
             }
+
+            .map-stats-grid > div > a > img {
+                vertical-align: middle;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
             
+            .map-stats-grid > div > a > div {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 2;
+            }
+
+            #gamemode-stats, #region-stats {
+                margin: 0 auto;
+            }
+
+            .gamemode-stats-table, .region-stats-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .gamemode-stats-table > thead > tr > th, .region-stats-table > thead > tr > th {
+                padding: 1rem 1rem;
+                background-color: rgb(15,15,15);
+            }
+
+            .gamemode-stats-table > tbody > tr > td, .region-stats-table > tbody > tr > td {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .gamemode-stats-name, .region-stats-name {
+                font-weight: 700;
+                width: 70%;
+                padding: 0.5rem;
+                padding-left: 1rem;
+            }
+
+            
+
+            .thin {
+                font-weight: 300;
+            }
+
+            .medium {
+                font-size: medium;
+            }
+
+            .offwhite {
+                color: rgb(200,200,200);
+            }
+
+            .center-text {
+                text-align: center;
+            }
+
+            .left-text {
+                text-align: left;
+            }
+
             footer {
                 color: rgb(35,35,35);
                 padding: 1em;
@@ -250,263 +264,270 @@
     </head>
     <body>
         <main>
-            <section id="server-browser">
-                <header class="server-browser-header">
-                    <h1>
-                        SERVER BROWSER
-                    </h1>
-                </header>
+            <section class="main-nav-container">
+                <div class="main-nav">
+                    <h1>BATTLE BIT</h1>
+                    <ol class="main-nav-redirects-container">
+                        <li class="main-nav-weapons">
+                            <a href="#">WEAPONS</a>
+                        </li>
+                        <li class="main-nav-vehicles">
+                            <a href="#">VEHICLES</a>
+                        </li>
+                        <li class="main-nav-server-browser">
+                            <a href="http://127.0.0.1:3000/server-browser">SERVERS</a>
+                        </li>
+                        <li class="main-nav-statistics">
+                            <a href="#">STATISTICS</a>
+                        </li>
+                    </ol>
+                </div>
+            </section>
 
-                <section id="servers">
-                    <table class="servers-list">
+            <article id="overview">
+                <section id="minimal-stats">
+                    <h1>OVERVIEW</h1>
+                    <div class="minimal-stats-grid">
+                        <div>
+                            <a href="#">
+                                <h1 id="player-count">↻</h1>
+                                <p>ONLINE PLAYERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="server-count">↻</h1>
+                                <p>SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="official-servers">↻</h1>
+                                <p>OFFICIAL SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="unofficial-servers">↻</h1>
+                                <p>UNOFFICIAL SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="day-servers">↻</h1>
+                                <p>DAY SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="night-servers">↻</h1>
+                                <p>NIGHT SERVERS</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section id="map-stats">
+                    <h1>MAPS</h1>
+                    <div class="map-stats-grid" id="map-stats-grid">
+                    </div>
+                </section>
+                <section id="gamemode-stats">
+                    <h1>GAMEMODES</h1>
+                    <table class="gamemode-stats-table" id="gamemode-stats-table">
                         <thead>
                             <tr>
-                                <th class="server-info" colspan="2">
-                                    NAME
+                                <th class="left-text">
+                                    <span>NAME</span>
                                 </th>
-                                <th class="player-count">
-                                    <a>PLAYERS</a>
+                                <th class="center-text">
+                                    <span>PLAYERS</span>
                                 </th>
-                                <th class="server-hz">
-                                    <a>TICK</a>
+                                <th  class="center-text">
+                                    <span>SERVERS</span>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody id="servers-list-tbody">
-
+                        <tbody>
                         </tbody>
                     </table>
-
-                    <aside>
-                        <div class="aside-server-info" id="aside-server-info" style="display: none;">
-                            <div class="quick-info" id="quick-info">
-                                <img class="quick-info-banner" id="quick-info-banner" src="">
-                                <div class="quick-info-server-name" id="quick-info-server-name">N/A</div>
-                                <div class="quick-info-map-name" id="quick-info-map-name">N/A</div>
-                                <div class="quick-info-map-misc" id="quick-info-map-misc">
-                                    <span id="quick-info-map-gamemode">N/A</span>
-                                    |
-                                    <span id="quick-info-map-size">N/A</span>
-                                </div>
-                            </div>
-                            <div class="more-info-container">
-                                <table class="more-info">
-                                    <tbody>
-                                        <tr>
-                                            <td class="server-info-key">Players:</td>
-                                            <td class="float-right server-info-value" id="Players">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">MaxPlayers:</td>
-                                            <td class="float-right server-info-value" id="MaxPlayers">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Queue:</td>
-                                            <td class="float-right server-info-value" id="Queue">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">DayNight:</td>
-                                            <td class="float-right server-info-value" id="DayNight">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Region:</td>
-                                            <td class="float-right server-info-value" id="Region">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Tick:</td>
-                                            <td class="float-right server-info-value" id="Tick">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Official</td>
-                                            <td class="float-right server-info-value" id="IsOfficial">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Password:</td>
-                                            <td class="float-right server-info-value" id="HasPassword">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">AntiCheat:</td>
-                                            <td class="float-right server-info-value" id="AntiCheat">N/A</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="server-info-key">Build:</td>
-                                            <td class="float-right server-info-value" id="Build">N/A</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </aside>
                 </section>
-            </section>
+
+                <section id="region-stats">
+                    <h1>REGIONS</h1>
+                    <table class="region-stats-table" id="region-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="left-text">
+                                    <span>NAME</span>
+                                </th>
+                                <th class="center-text">
+                                    <span>PLAYERS</span>
+                                </th>
+                                <th  class="center-text">
+                                    <span>SERVERS</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+            </article>
 
             <footer>
                 <h4>Made by @lili2</h4>
             </footer>
         </main>
 
-        <template id="server-item-template">
-            <tr class="server-item">
-                <td class="server-thumbnail">
-                    <img class="map-thumbnail" src=""> 
+        <template id="map-stats-template">
+            <div>
+                <a href="#">
+                    <div></div>
+                    <img src="" id="map-thumbnail">
+                </a>
+                <div>
+                    <h1 id="name">NAME</h1>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="thin medium offwhite">Players:</span>
+                                </td>
+                                <td>
+                                    <span class="float-right" id="player-count">N/A</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="thin medium offwhite">Servers:</span>
+                                </td>
+                                <td >
+                                    <span class="float-right" id="server-count">N/A</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="gamemode-stats-template">
+            <tr>
+                <td class="left-text gamemode-stats-name">
+                    <span id="gamemode-stats-name">N/A</span>
                 </td>
-                <td class="server">
-                    <div class="server-name">177-8V-12</div>
-                    <div class="server-details">
-                        <span class="region-flag">
-                            <img src="">
-                        </span>
-                        <span class="map">WAKISTAN</span>
-                        |
-                        <span class="gamemode">DOMI</span>
-                        |
-                        <span class="anticheat">EAC</span>
-                    </div>
+                <td class="center-text gamemode-stats-players">
+                    <span id="gamemode-stats-players">N/A</span>
                 </td>
-                <td class="player-count">
-                    64 / 64 (2)
+                <td class="center-text gamemode-stats-servers">
+                    <span id="gamemode-stats-servers">N/A</span>
                 </td>
-                <td class="server-hz">
-                    60
+            </tr>
+        </template> 
+        
+        <template id="region-stats-template">
+            <tr>
+                <td class="left-text region-stats-name">
+                    <span id="region-stats-name">N/A</span>
+                </td>
+                <td class="center-text region-stats-players">
+                    <span id="region-stats-players">N/A</span>
+                </td>
+                <td class="center-text region-stats-servers">
+                    <span id="region-stats-servers">N/A</span>
                 </td>
             </tr>
         </template>
 
-        <script src="main.js"></script>
-
         <script>
-            let width = screen.width;
+            const width = screen.width;
 
-            const ServerBrowser = document.getElementById("server-browser");
-            ServerBrowser.style.width = width/2 + "px";
+            const MinimalStats = document.getElementById("minimal-stats");
+            MinimalStats.style.width = width/3 + "px";
 
-            const ServerListTBody = document.getElementById("servers-list-tbody")
-            const ServerItemTemplate = document.getElementById("server-item-template");
+            const MinimalStatsPlayerCount = document.getElementById('player-count');
+            const MinimalStatsServerCount = document.getElementById('server-count');
+            const MinimalStatsOfficialServers = document.getElementById('official-servers');
+            const MinimalStatsUnofficialServers = document.getElementById('unofficial-servers');
+            const MinimalStatsDay = document.getElementById('day-servers');
+            const MinimalStatsNight = document.getElementById('night-servers');
 
-            const AsideServerInfo = document.getElementById("aside-server-info")
-            const QuickInfo = document.getElementById("quick-info")
-            const QuickInfoBanner = document.getElementById("quick-info-banner")
-            const QuickInfoServerName = document.getElementById("quick-info-server-name")
-            const QuickInfoMapName = document.getElementById("quick-info-map-name")
-            const QuickInfoMapGamemode = document.getElementById("quick-info-map-gamemode")
-            const QuickInfoMapSize = document.getElementById("quick-info-map-size")
+            const MapStats = document.getElementById("map-stats");
+            MapStats.style.width = width/3 + "px";
+            const MapStatsGrid = document.getElementById("map-stats-grid");
+            const MapStatsTemplate = document.getElementById('map-stats-template')
 
-            const MoreInfoPlayers = document.getElementById("Players")
-            const MoreInfoMaxPlayers = document.getElementById("MaxPlayers")
-            const MoreInfoQueue = document.getElementById("Queue")
-            const MoreInfoDayNight = document.getElementById("DayNight")
-            const MoreInfoRegion = document.getElementById("Region")
-            const MoreInfoTick = document.getElementById("Tick")
-            const MoreInfoIsOfficial = document.getElementById("IsOfficial")
-            const MoreInfoHasPassword = document.getElementById("HasPassword")
-            const MoreInfoAntiCheat = document.getElementById("AntiCheat")
-            const MoreInfoBuild = document.getElementById("Build")
+            const GamemodeStats = document.getElementById("gamemode-stats");
+            GamemodeStats.style.width = width/3 + "px";
+            const GamemodeStatsTable = document.getElementById("gamemode-stats-table");
+            const GamemodeStatsTemplate = document.getElementById("gamemode-stats-template");
 
-            var Selected = null;
+            const RegionStats = document.getElementById("region-stats");
+            RegionStats.style.width = width/3 + "px";
+            const RegionStatsTable = document.getElementById("region-stats-table");
+            const RegionStatsTemplate = document.getElementById("region-stats-template");
 
-            fetch("http://127.0.0.1:3000/servers")
+            fetch("http://127.0.0.1:3000/overview")
                 .then(response => response.json())
-                .then(data => {
-                    data.forEach(Server => {
-                        const clone = ServerItemTemplate.content.cloneNode(true);
+                .then(Data => {
+                    MinimalStatsPlayerCount.innerText = Data["player-count"];
+                    MinimalStatsServerCount.innerText = Data["server-count"];
+                    MinimalStatsOfficialServers.innerText = Data["official-servers"];
+                    MinimalStatsUnofficialServers.innerText = Data["unofficial-servers"];
+                    MinimalStatsDay.innerText = Data["day"]
+                    MinimalStatsNight.innerText = Data["night"]
 
-                        const ServerItem = clone.querySelector("tr.server-item")
-                        let td = clone.querySelectorAll("td");
+                    Data.maps.forEach(mapData => {
+                        const MapName = mapData.Map;
+                        const PlayerCount = mapData.Players;
+                        const ServerCount = mapData.Servers;
 
-                        const serverThumbnail = td[0]
-                        const serverDetailsContainer = td[1]
-                        const serverPlayerCount = td[2]
-                        const serverHz = td[3]
+                        const Clone = MapStatsTemplate.content.cloneNode(true);
+                        const MapThumbnail = Clone.querySelector("img#map-thumbnail");
+                        const MapNameElement = Clone.querySelector("h1#name");
+                        const MapPlayerCountElement = Clone.querySelector("span#player-count");
+                        const MapServerCountElement = Clone.querySelector("span#server-count");
 
-                        const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
+                        MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + MapName + ".png"
+                        MapNameElement.innerText = MapName.toUpperCase()
+                        MapPlayerCountElement.innerText = PlayerCount
+                        MapServerCountElement.innerText = ServerCount
 
-                        const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
-                        const ServerName = serverDetailsContainer.querySelector("div.server-name")
-                        const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
-                        const RegionFlag = RegionFlagContainer.querySelector("img")
-                        const ServerMap = ServerDetails.querySelector("span.map")
-                        const ServerGamemode = ServerDetails.querySelector("span.gamemode")
-                        const ServerAnticheat = ServerDetails.querySelector("span.anticheat")
+                        MapStatsGrid.appendChild(Clone)
+                    })
 
-                        ServerName.innerText = Server.Name
-                        ServerMap.innerText = Server.Map.toUpperCase()
-                        ServerGamemode.innerText = Server.Gamemode.toUpperCase()
-                        ServerAnticheat.innerText = Server.AntiCheat
-                        serverPlayerCount.innerText = Server.Players + " / " + Server.MaxPlayers
-                        if (Server.QueuePlayers > 0) {
-                            serverPlayerCount.innerText += " (" + Server.QueuePlayers + ")"
-                        }
-                        serverHz.innerText = Server.Hz
-                        MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + Server.Map + ".png"
-                        RegionFlag.src = "http://127.0.0.1:3000/images/?path=flags/" + Server.Region + ".png"
+                    Data.gamemodes.forEach(gamemodeData => {
+                        const GamemodeName = gamemodeData.Gamemode;
+                        const PlayerCount = gamemodeData.Players;
+                        const ServerCount = gamemodeData.Servers;
 
-                        console.log(Server.Region)
+                        const Clone = GamemodeStatsTemplate.content.cloneNode(true);
+                        const GamemodeNameElement = Clone.querySelector("span#gamemode-stats-name");
+                        const GamemodePlayerCountElement = Clone.querySelector("span#gamemode-stats-players");
+                        const GamemodeServerCountElement = Clone.querySelector("span#gamemode-stats-servers");
 
-                        ServerItem.addEventListener("mouseenter", e => {
-                            e.preventDefault();
-                            
-                            if (ServerItem !== Selected) {
-                                ServerItem.style.backgroundColor = "rgb(10,10,10)";
-                            }
-                        })
+                        GamemodeNameElement.innerText = GamemodeName.toUpperCase()
+                        GamemodePlayerCountElement.innerText = PlayerCount
+                        GamemodeServerCountElement.innerText = ServerCount
 
-                        ServerItem.addEventListener("mouseleave", e => {
-                            e.preventDefault();
+                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    })
 
-                            if (ServerItem !== Selected) {
-                                ServerItem.style.backgroundColor = "rgb(15,15,15)";
-                            }
-                        })
+                    Data.regions.forEach(regionData => {
+                        const RegionName = regionData.Region;
+                        const PlayerCount = regionData.Players;
+                        const ServerCount = regionData.Servers;
 
-                        ServerItem.addEventListener("click", e => {
-                            e.preventDefault();
+                        const Clone = RegionStatsTemplate.content.cloneNode(true);
+                        const RegionNameElement = Clone.querySelector("span#region-stats-name");
+                        const RegionPlayerCountElement = Clone.querySelector("span#region-stats-players");
+                        const RegionServerCountElement = Clone.querySelector("span#region-stats-servers");
 
-                            if (Selected) {
-                                Selected.style.backgroundColor = "rgb(15,15,15)";
-                                Selected.querySelector('div.server-name').style.color = 'white';
-                            Selected.querySelector('td.player-count').style.color = 'white';
-                            Selected.querySelector('td.server-hz').style.color = 'white';
-                            }
+                        RegionNameElement.innerText = RegionName.split("_")[0].toUpperCase()
+                        RegionPlayerCountElement.innerText = PlayerCount
+                        RegionServerCountElement.innerText = ServerCount
 
-                            Selected = ServerItem;
-                            Selected.style.backgroundColor = "rgb(225,225,225)";
-                            Selected.querySelector('div.server-name').style.color = 'rgb(50,50,50)';
-                            Selected.querySelector('td.player-count').style.color = 'rgb(50,50,50)';
-                            Selected.querySelector('td.server-hz').style.color = 'rgb(50,50,50)';
-
-                            fetch("http://127.0.0.1:3000/server?name=" + Server.Name)
-                                .then(response => response.json())
-                                .then(UpdatedServer => {
-                                    AsideServerInfo.style.display = "block";
-                                    QuickInfoBanner.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + UpdatedServer.Map + ".png"
-                                    QuickInfoServerName.innerText = UpdatedServer.Name.toUpperCase()
-                                    QuickInfoMapName.innerText = UpdatedServer.Map.toUpperCase()
-                                    QuickInfoMapGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
-                                    QuickInfoMapSize.innerText = UpdatedServer.MapSize.toUpperCase()
-
-                                    MoreInfoPlayers.innerText = UpdatedServer.Players
-                                    MoreInfoMaxPlayers.innerText = UpdatedServer.MaxPlayers
-                                    MoreInfoQueue.innerText = UpdatedServer.QueuePlayers
-                                    MoreInfoDayNight.innerText = UpdatedServer.DayNight
-                                    MoreInfoRegion.innerText = UpdatedServer.Region
-                                    MoreInfoTick.innerText = UpdatedServer.Hz
-                                    MoreInfoIsOfficial.innerText = UpdatedServer.IsOfficial
-                                    MoreInfoHasPassword.innerText = UpdatedServer.HasPassword 
-                                    MoreInfoAntiCheat.innerText = UpdatedServer.AntiCheat
-                                    MoreInfoBuild.innerText = UpdatedServer.Build
-                                    
-                                    ServerMap.innerText = UpdatedServer.Map.toUpperCase()
-                                    ServerGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
-                                    serverPlayerCount.innerText = UpdatedServer.Players + " / " + UpdatedServer.MaxPlayers
-                                    if (UpdatedServer.QueuePlayers > 0) {
-                                        serverPlayerCount.innerText += " (" + UpdatedServer.QueuePlayers + ")"
-                                    }
-                                    MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + UpdatedServer.Map + ".png"   
-                                })
-                        })
-
-
-                        ServerListTBody.appendChild(clone);
+                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
                     })
                 })
         </script>
