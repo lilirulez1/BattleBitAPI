@@ -547,6 +547,59 @@
                     MinimalStatsUnofficialServers.innerText = OverviewData["unofficial-servers"]
                     MinimalStatsDay.innerText = OverviewData["day"]
                     MinimalStatsNight.innerText = OverviewData["night"]
+
+                    OverviewData.maps.forEach(MapData => {
+                        const MapName = mapData.Map;
+                        const PlayerCount = mapData.Players;
+                        const ServerCount = mapData.Servers;
+
+                        const Clone = MapStatsTemplate.content.cloneNode(true);
+                        const MapThumbnail = Clone.querySelector("img#map-thumbnail");
+                        const MapNameElement = Clone.querySelector("h1#name");
+                        const MapPlayerCountElement = Clone.querySelector("span#player-count");
+                        const MapServerCountElement = Clone.querySelector("span#server-count");
+
+                        MapThumbnail.src = "http://127.0.0.1:3000/images/?path=map_thumbnails/" + MapName + ".png"
+                        MapNameElement.innerText = MapName.toUpperCase()
+                        MapPlayerCountElement.innerText = PlayerCount
+                        MapServerCountElement.innerText = ServerCount
+
+                        MapStatsGrid.appendChild(Clone)
+                    })
+
+                    OverviewData.gamemodes.forEach(gamemodeData => {
+                        const GamemodeName = gamemodeData.Gamemode;
+                        const PlayerCount = gamemodeData.Players;
+                        const ServerCount = gamemodeData.Servers;
+
+                        const Clone = GamemodeStatsTemplate.content.cloneNode(true);
+                        const GamemodeNameElement = Clone.querySelector("span#gamemode-stats-name");
+                        const GamemodePlayerCountElement = Clone.querySelector("span#gamemode-stats-players");
+                        const GamemodeServerCountElement = Clone.querySelector("span#gamemode-stats-servers");
+
+                        GamemodeNameElement.innerText = GamemodeName.toUpperCase()
+                        GamemodePlayerCountElement.innerText = PlayerCount
+                        GamemodeServerCountElement.innerText = ServerCount
+
+                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    })
+
+                    OverviewData.regions.forEach(regionData => {
+                        const RegionName = regionData.Region;
+                        const PlayerCount = regionData.Players;
+                        const ServerCount = regionData.Servers;
+
+                        const Clone = RegionStatsTemplate.content.cloneNode(true);
+                        const RegionNameElement = Clone.querySelector("span#region-stats-name");
+                        const RegionPlayerCountElement = Clone.querySelector("span#region-stats-players");
+                        const RegionServerCountElement = Clone.querySelector("span#region-stats-servers");
+
+                        RegionNameElement.innerText = RegionName.split("_")[0].toUpperCase()
+                        RegionPlayerCountElement.innerText = PlayerCount
+                        RegionServerCountElement.innerText = ServerCount
+
+                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    })
               })
         </script>
     </body>
