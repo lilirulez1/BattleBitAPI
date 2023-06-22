@@ -541,7 +541,12 @@
                         "night": night
                     }
 
-                    console.log(OverviewData)
+                    MinimalStatsPlayerCount.innerText = OverviewData["player-count"]
+                    MinimalStatsServerCount.innerText = OverviewData["server-count"]
+                    MinimalStatsOfficialServers.innerText = OverviewData["official-servers"]
+                    MinimalStatsUnofficialServers.innerText = OverviewData["unofficial-servers"]
+                    MinimalStatsDay.innerText = OverviewData["day"]
+                    MinimalStatsNight.innerText = OverviewData["night"]
               })
         </script>
     </body>
