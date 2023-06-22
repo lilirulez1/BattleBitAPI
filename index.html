@@ -1,9 +1,477 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-  </head>
-  <body>
-    PP
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>BattleBit</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+
+        <style>
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgb(25,25,25); 
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888; 
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+            }
+
+            body {
+                background-color: rgb(25,25,25);
+                padding: 0 0;
+                margin: 0;
+                height: 100vh;
+                width: 100vw;
+                color: white;
+                overflow-x: hidden;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            main {
+                padding: 2rem;
+                padding-bottom: 6rem;
+            }
+
+            .main-nav-container {
+                background-color: rgb(15,15,15);
+                padding: 1rem 0;
+            }
+
+            .main-nav {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                width: 50%;
+                margin: 0 auto;
+            }
+
+            .main-nav > h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: xx-large;
+                margin: 0 0;
+            }
+
+            .main-nav-redirects-container {
+                margin: 0 0;
+                list-style: none;
+                display: table;
+            }
+
+            .main-nav-redirects-container > li {
+                vertical-align: middle;
+                display: table-cell;
+                float: left;
+                height: 100%;
+            }
+
+            .main-nav-redirects-container > li > a {
+                color: rgb(200,200,200);
+                font-weight: 300;
+                display: block;
+                text-align: center;
+                padding: 1rem 1rem;
+            }
+
+            .main-nav-redirects-container > li > a:hover {
+                color: rgb(250,250,250);
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+
+            #overview {
+                margin: 0 auto;
+            }
+
+           #overview > section > h1 {
+                margin: 1rem 0 0.5rem 0; /* top right bottom left*/
+                font-size: x-large;
+                font-weight: 500;
+            }
+
+            #minimal-stats {
+                margin: 0 auto;
+            }
+
+            .minimal-stats-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .minimal-stats-grid > div {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .minimal-stats-grid > div > a {
+                text-align: center;
+            }
+
+            .minimal-stats-grid > div > a > h1 {
+                font-size: xx-large;
+                margin: 1rem 0 0 0;
+            }
+
+            .minimal-stats-grid > div > a > p {
+                font-weight: 400;
+                color: rgb(50,50,50);
+                margin: 0.5rem 0 0.5rem 0;
+            }
+
+            #map-stats {
+                margin: 0 auto;
+            }
+
+            .map-stats-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .map-stats-grid > div {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+                position: relative;
+            }
+
+            .map-stats-grid > div > a {
+                height: 100%;
+                display: block;
+            }
+
+            .map-stats-grid > div > div {
+                padding: 1rem;
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+            }
+
+            .map-stats-grid > div > div > h1 {
+                margin: 0;
+                font-weight: 600;
+                font-size: xx-large;
+            }
+            
+            .map-stats-grid > div > div > table {
+                width: 100%;
+            }
+
+            .map-stats-grid > div > div > table > tbody > tr > td > .float-right {
+                font-weight: 500;
+                font-size: medium;
+                color: rgb(250, 250, 250);
+            } 
+
+            .float-right {
+                float: right;
+            }
+
+            .map-stats-grid > div > a > img {
+                vertical-align: middle;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .map-stats-grid > div > a > div {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 2;
+            }
+
+            #gamemode-stats, #region-stats {
+                margin: 0 auto;
+            }
+
+            .gamemode-stats-table, .region-stats-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .gamemode-stats-table > thead > tr > th, .region-stats-table > thead > tr > th {
+                padding: 1rem 1rem;
+                background-color: rgb(15,15,15);
+            }
+
+            .gamemode-stats-table > tbody > tr > td, .region-stats-table > tbody > tr > td {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .gamemode-stats-name, .region-stats-name {
+                font-weight: 700;
+                width: 70%;
+                padding: 0.5rem;
+                padding-left: 1rem;
+            }
+
+            
+
+            .thin {
+                font-weight: 300;
+            }
+
+            .medium {
+                font-size: medium;
+            }
+
+            .offwhite {
+                color: rgb(200,200,200);
+            }
+
+            .center-text {
+                text-align: center;
+            }
+
+            .left-text {
+                text-align: left;
+            }
+
+            footer {
+                color: rgb(35,35,35);
+                padding: 1em;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                background-color: rgb(15,15,15);
+                width: 100%;
+            }
+
+            footer > * {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section class="main-nav-container">
+                <div class="main-nav">
+                    <h1>BATTLE BIT</h1>
+                    <ol class="main-nav-redirects-container">
+                        <li class="main-nav-weapons">
+                            <a href="#">WEAPONS</a>
+                        </li>
+                        <li class="main-nav-vehicles">
+                            <a href="#">VEHICLES</a>
+                        </li>
+                        <li class="main-nav-server-browser">
+                            <a href="http://127.0.0.1:3000/server-browser">SERVERS</a>
+                        </li>
+                        <li class="main-nav-statistics">
+                            <a href="#">STATISTICS</a>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <article id="overview">
+                <section id="minimal-stats">
+                    <h1>OVERVIEW</h1>
+                    <div class="minimal-stats-grid">
+                        <div>
+                            <a href="#">
+                                <h1 id="player-count">↻</h1>
+                                <p>ONLINE PLAYERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="server-count">↻</h1>
+                                <p>SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="official-servers">↻</h1>
+                                <p>OFFICIAL SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="unofficial-servers">↻</h1>
+                                <p>UNOFFICIAL SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="day-servers">↻</h1>
+                                <p>DAY SERVERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#">
+                                <h1 id="night-servers">↻</h1>
+                                <p>NIGHT SERVERS</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section id="map-stats">
+                    <h1>MAPS</h1>
+                    <div class="map-stats-grid" id="map-stats-grid">
+                    </div>
+                </section>
+                <section id="gamemode-stats">
+                    <h1>GAMEMODES</h1>
+                    <table class="gamemode-stats-table" id="gamemode-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="left-text">
+                                    <span>NAME</span>
+                                </th>
+                                <th class="center-text">
+                                    <span>PLAYERS</span>
+                                </th>
+                                <th  class="center-text">
+                                    <span>SERVERS</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="region-stats">
+                    <h1>REGIONS</h1>
+                    <table class="region-stats-table" id="region-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="left-text">
+                                    <span>NAME</span>
+                                </th>
+                                <th class="center-text">
+                                    <span>PLAYERS</span>
+                                </th>
+                                <th  class="center-text">
+                                    <span>SERVERS</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+
+            <footer>
+                <h4>Made by @lili2</h4>
+            </footer>
+        </main>
+
+        <template id="map-stats-template">
+            <div>
+                <a href="#">
+                    <div></div>
+                    <img src="" id="map-thumbnail">
+                </a>
+                <div>
+                    <h1 id="name">NAME</h1>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="thin medium offwhite">Players:</span>
+                                </td>
+                                <td>
+                                    <span class="float-right" id="player-count">N/A</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="thin medium offwhite">Servers:</span>
+                                </td>
+                                <td >
+                                    <span class="float-right" id="server-count">N/A</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="gamemode-stats-template">
+            <tr>
+                <td class="left-text gamemode-stats-name">
+                    <span id="gamemode-stats-name">N/A</span>
+                </td>
+                <td class="center-text gamemode-stats-players">
+                    <span id="gamemode-stats-players">N/A</span>
+                </td>
+                <td class="center-text gamemode-stats-servers">
+                    <span id="gamemode-stats-servers">N/A</span>
+                </td>
+            </tr>
+        </template> 
+        
+        <template id="region-stats-template">
+            <tr>
+                <td class="left-text region-stats-name">
+                    <span id="region-stats-name">N/A</span>
+                </td>
+                <td class="center-text region-stats-players">
+                    <span id="region-stats-players">N/A</span>
+                </td>
+                <td class="center-text region-stats-servers">
+                    <span id="region-stats-servers">N/A</span>
+                </td>
+            </tr>
+        </template>
+
+        <script>
+            const width = screen.width;
+
+            const MinimalStats = document.getElementById("minimal-stats");
+            MinimalStats.style.width = width/3 + "px";
+
+            const MinimalStatsPlayerCount = document.getElementById('player-count');
+            const MinimalStatsServerCount = document.getElementById('server-count');
+            const MinimalStatsOfficialServers = document.getElementById('official-servers');
+            const MinimalStatsUnofficialServers = document.getElementById('unofficial-servers');
+            const MinimalStatsDay = document.getElementById('day-servers');
+            const MinimalStatsNight = document.getElementById('night-servers');
+
+            const MapStats = document.getElementById("map-stats");
+            MapStats.style.width = width/3 + "px";
+            const MapStatsGrid = document.getElementById("map-stats-grid");
+            const MapStatsTemplate = document.getElementById('map-stats-template')
+
+            const GamemodeStats = document.getElementById("gamemode-stats");
+            GamemodeStats.style.width = width/3 + "px";
+            const GamemodeStatsTable = document.getElementById("gamemode-stats-table");
+            const GamemodeStatsTemplate = document.getElementById("gamemode-stats-template");
+
+            const RegionStats = document.getElementById("region-stats");
+            RegionStats.style.width = width/3 + "px";
+            const RegionStatsTable = document.getElementById("region-stats-table");
+            const RegionStatsTemplate = document.getElementById("region-stats-template");
+
+            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+              .then(response => response.json())
+              .then(Data => {
+                console.log(Data)
+              })
+        </script>
+    </body>
 </html>
