@@ -558,8 +558,13 @@
                         const MapNameElement = Clone.querySelector("h1#name");
                         const MapPlayerCountElement = Clone.querySelector("span#player-count");
                         const MapServerCountElement = Clone.querySelector("span#server-count");
+                        
+                        if (!File.exists("assets/map_thumbnails/" + MapName + ".png"))) {
+                            MapThumbnail.src = "assets/404.png";
+                        } else {
+                            MapThumbnail.src = "assets/map_thumbnails/" + MapName + ".png";
+                        }
 
-                        MapThumbnail.src = "assets/map_thumbnails/" + MapName + ".png"
                         MapNameElement.innerText = MapName.toUpperCase()
                         MapPlayerCountElement.innerText = PlayerCount
                         MapServerCountElement.innerText = ServerCount
