@@ -230,6 +230,11 @@
                 background-color: rgb(15,15,15);
             }
 
+            
+            .server-item:hover {
+                background-color: rgb(10,10,10);
+            }
+
             .server-item > .server-info {
                 display: flex;
                 flex-direction: row;
@@ -713,6 +718,10 @@
                         RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
 
                         ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
+
+                        ServerItem.addEventListener("click", (e) => {
+                            window.location.href = "server-info.html?serverName=" + ServerName
+                        })
                     })
 
                     Map.Gamemodes.sort((a,b) => b.Players - a.Players)

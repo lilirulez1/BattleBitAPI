@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>BattleBit</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+
+        <style>
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: rgb(25,25,25); 
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888; 
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+            }
+
+            body {
+                background-color: rgb(25,25,25);
+                padding: 0 0;
+                margin: 0;
+                height: 100vh;
+                width: 100vw;
+                color: white;
+                overflow-x: hidden;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            main {
+                padding: 2rem;
+                padding-bottom: 6rem;
+            }
+
+            .nav-return {
+                height: 100%;
+                position: absolute;
+                top: 0;
+                justify-content: center;
+                align-content: center;
+                width: 5rem;
+            }
+
+            .nav-return > a {
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                display: flex;
+                height: 100%;
+                font-size: xx-large;
+            }
+
+            .main-nav-container {
+                background-color: rgb(15,15,15);
+                padding: 1rem 0;
+                position: sticky;
+                top: 0;
+                z-index: 3;
+            }
+
+            .main-nav {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                width: 50%;
+                margin: 0 auto;
+            }
+
+            .main-nav > h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: xx-large;
+                margin: 0 0;
+            }
+
+            .main-nav-redirects-container {
+                margin: 0 0;
+                list-style: none;
+                display: table;
+            }
+
+            .main-nav-redirects-container > li {
+                vertical-align: middle;
+                display: table-cell;
+                float: left;
+                height: 100%;
+            }
+
+            .main-nav-redirects-container > li > a {
+                color: rgb(200,200,200);
+                font-weight: 300;
+                display: block;
+                text-align: center;
+                padding: 1rem 1rem;
+            }
+
+            .main-nav-redirects-container > li > a:hover {
+                color: rgb(250,250,250);
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+
+            #overview {
+                margin: 0 auto;
+            }
+
+           #overview > section > h1 {
+                margin: 1rem 0 0.5rem 0; /* top right bottom left*/
+                font-size: x-large;
+                font-weight: 500;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #server-info {
+                margin: 0 auto;
+                display: inline-block;
+            }
+
+            .server-info-flex {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .server-info-flex > div {
+                white-space: nowrap;
+                text-align: center;
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+                padding: 1rem 2rem;
+                flex: auto;
+            }
+
+            .server-info-flex > div > h1 {
+                font-size: xx-large;
+                margin: 1rem 0 0 0;
+            }
+
+            .server-info-flex > div > p {
+                font-weight: 400;
+                color: rgb(50,50,50);
+                margin: 0.5rem 0 0.5rem 0;
+            }
+
+            .float-right {
+                float: right;
+            }
+
+            .map-stats-grid > div > a > img {
+                vertical-align: middle;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .map-stats-grid > div > a > div {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 2;
+            }
+
+            #server-settings {
+                margin: 0 auto;
+            }
+
+            .stats-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .stats-table > thead > tr > th {
+                padding: 1rem 1rem;
+                background-color: rgb(15,15,15);
+            }
+
+            .stats-table > tbody > tr > td {
+                background-color: rgb(15,15,15);
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .setting-name {
+                font-weight: 700;
+                width: 70%;
+                padding: 0.5rem;
+                padding-left: 1rem;
+            }
+
+            thead > tr > .server-info {
+                width: 80%;
+                text-align: left;
+            }
+
+            .player-count {
+                white-space: nowrap;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .server-hz {
+                border-right: 0;
+                white-space: nowrap;
+                width: 5%;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .servers-list {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .server-item {
+                background-color: rgb(15,15,15);
+            }
+
+            .server-item > .server-info {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .server {
+                border-left: 0;
+                width: 100%;
+            }
+
+            .server-details {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 24px;
+                color: rgb(50,50,50);
+                font-weight: 400;
+                font-size: small;
+            }
+
+            .server-details > * {
+                padding: 0.25rem;
+            }
+
+            .region-flag > img {
+                height: 24px;
+                margin: 0 auto;
+            }
+
+            .region-flag {
+                height: 24px;
+            }
+
+            th {
+                padding: 0.25rem;
+                background-color: rgb(15,15,15);
+            }
+
+            td {
+                padding: 0.25rem;
+                border: 2px solid rgb(25,25,25);
+            }
+
+            .server-name {
+                font-weight: 700;
+            }
+
+            .server-thumbnail {
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .map-thumbnail {
+                object-fit: cover;
+                display: block;
+                width: 45px;
+                height: 45px;
+            }
+
+            .map-span {
+                height: 45px;
+                margin-right: 0.25rem;
+            }
+
+            #server-scoreboard {
+                margin: 0 auto;
+            }
+
+            #servers {
+                margin: 0 auto;
+            }
+
+            .thin {
+                font-weight: 300;
+            }
+
+            .medium {
+                font-size: medium;
+            }
+
+            .offwhite {
+                color: rgb(200,200,200);
+            }
+
+            .center-text {
+                text-align: center;
+            }
+
+            .left-text {
+                text-align: left;
+            }
+
+            footer {
+                color: rgb(35,35,35);
+                padding: 1em;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                background-color: rgb(15,15,15);
+                width: 100%;
+            }
+
+            footer > * {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section class="main-nav-container">
+                <div class="nav-return">
+                    <a href="index.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
+                    </a>
+                </div>
+                <div class="main-nav">
+                    <h1 id="server-name"></h1>
+                    <ol class="main-nav-redirects-container">
+                        <li class="main-nav-weapons">
+                            <a href="#server-info">OVERVIEW</a>
+                        </li>
+                        <li class="main-nav-weapons">
+                            <a href="#server-scoreboard">SCOREBOARD</a>
+                        </li>
+                        <li class="main-nav-weapons">
+                            <a href="#server-settings">SETTINGS</a>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <article id="overview">
+                <div style="margin: 0 auto; display: flex;">
+                    <section id="server-info">
+                        <h1>OVERVIEW</h1>
+                        <div class="server-info-flex">
+                            <div>
+                                <h1 id="player-count">↻</h1>
+                                <p>ONLINE PLAYERS</p>
+                            </div>
+                            <div>
+                                <h1 id="server-tick">↻</h1>
+                                <p>TICK</p>
+                            </div>
+                            <div>
+                                <h1 id="server-map">↻</h1>
+                                <p>MAP</p>
+                            </div>
+                            <div>
+                                <h1 id="server-mapsize">↻</h1>
+                                <p>MAPSIZE</p>
+                            </div>
+                            <div>
+                                <h1 id="server-gamemode">↻</h1>
+                                <p>GAMEMODE</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <section id="server-scoreboard">
+                    <h1>SCOREBOARD</h1>
+                    <h1 style="background-color: rgb(15,15,15); padding: 1rem;">#ExposeMoreAPI</h1>
+                </section>
+                <section id="server-settings">
+                    <h1>SERVER SETTINGS</h1>
+                    <table class="stats-table" id="region-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="left-text">
+                                    <span>NAME</span>
+                                </th>
+                                <th  class="center-text">
+                                    <span>VALUE</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+
+            <template id="server-setting-template">
+                <tr>
+                    <td class="left-text setting-name">
+                        <span id="setting-name">SETTING</span>
+                    </td>
+                    <td class="center-text setting-value">
+                        <span id="setting-value">VALUE</span>
+                    </td>
+                </tr>
+            </template>
+
+            <footer>
+                <h4>Made by @lili2</h4>
+            </footer>
+        </main>
+
+        <script>
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+
+            var ServerName = getParameterByName('serverName');
+
+            const width = screen.width;
+
+            const ServerNameElement = document.getElementById("server-name");
+            
+            const ServerInfo = document.getElementById("server-info");
+
+            const PlayerCount = document.getElementById("player-count")
+            const ServerTick = document.getElementById("server-tick")
+            const ServerMap = document.getElementById("server-map")
+            const ServerMapSize = document.getElementById("server-mapsize")
+            const ServerGamemode = document.getElementById("server-gamemode")
+
+            const ServerSettings = document.getElementById("server-settings");
+            ServerSettings.style.width = width / 3 + "px";
+
+            const ServerScoreboard = document.getElementById("server-scoreboard");
+            ServerScoreboard.style.width = width / 3 + "px";
+
+            const ServerSettingTemplate = document.getElementById("server-setting-template")
+
+            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+                .then(response => response.json())
+                .then(Data => {
+                    const Server = Data.find(server => server.Name === ServerName)
+
+                    ServerNameElement.innerText = Server.Name
+                    PlayerCount.innerText = Server.Players
+                    ServerTick.innerText = Server.Hz
+                    ServerMap.innerText = Server.Map.toUpperCase()
+                    ServerMapSize.innerText = Server.MapSize.toUpperCase()
+                    ServerGamemode.innerText = Server.Gamemode.toUpperCase()
+
+                    const temp = ServerSettingTemplate.content.cloneNode(true);
+                    temp.querySelector("span#setting-name").innerText = "Nothing to put here"
+                    temp.querySelector("span#setting-value").innerText = "#exposemoreapi"
+
+                    ServerSettings.querySelector("tbody").appendChild(temp);
+                })
+
+        </script>
+    </body>
+</html>

@@ -235,6 +235,20 @@
                 float: right;
             }
 
+            #aside-server-info > a {
+                display: block;
+                background-color: white;
+                color: black;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 1rem;
+                margin: 2rem 0;
+                border: 0 solid;
+                font-size: x-large;
+                font-weight: 700;
+                width: 100%;
+            }
+
             .quick-info {
                 position: relative;
                 margin-bottom: 2rem;
@@ -418,6 +432,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <a id="more-info">
+                                MORE INFO
+                            </a>
                         </div>
                     </aside>
                 </section>
@@ -482,6 +499,7 @@
             const MoreInfoHasPassword = document.getElementById("HasPassword")
             const MoreInfoAntiCheat = document.getElementById("AntiCheat")
             const MoreInfoBuild = document.getElementById("Build")
+            const MoreInfoButton = document.getElementById("more-info")
 
             var Selected = null;
 
@@ -575,6 +593,8 @@
                                     MoreInfoHasPassword.innerText = UpdatedServer.HasPassword 
                                     MoreInfoAntiCheat.innerText = UpdatedServer.AntiCheat
                                     MoreInfoBuild.innerText = UpdatedServer.Build
+
+                                    MoreInfoButton.href = "server-info.html?serverName=" + UpdatedServer.Name
                                     
                                     ServerMap.innerText = UpdatedServer.Map.toUpperCase()
                                     ServerGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()

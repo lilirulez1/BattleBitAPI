@@ -230,6 +230,10 @@
                 background-color: rgb(15,15,15);
             }
 
+            .server-item:hover {
+                background-color: rgb(10,10,10);
+            }
+
             .server-item > .server-info {
                 display: flex;
                 flex-direction: row;
@@ -701,6 +705,10 @@
                         serverHz.innerText = ServerHz
                         MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
                         RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
+
+                        ServerItem.addEventListener("click", (e) => {
+                            window.location.href = "server-info.html?serverName=" + ServerName
+                        })
 
                         ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
                     })
