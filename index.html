@@ -119,6 +119,11 @@
             .minimal-stats-grid > div {
                 background-color: rgb(15,15,15);
                 border: 2px solid rgb(25,25,25);
+                transition: background-color 0.1s ease;
+            }
+
+            .minimal-stats-grid > div:hover {
+                background-color: rgb(10,10,10);
             }
 
             .minimal-stats-grid > div > a {
@@ -200,6 +205,13 @@
                 bottom: 0;
                 left: 0;
                 z-index: 2;
+                transition: opacity 0.1s;
+                background-color: black;
+                opacity: 0;
+            }
+
+            .map-stats-grid > div > a > div:hover {
+                opacity: 0.2;
             }
 
             #gamemode-stats, #region-stats, #mapsize-stats {
@@ -292,37 +304,37 @@
                     <h1>OVERVIEW</h1>
                     <div class="minimal-stats-grid">
                         <div>
-                            <a href="#">
+                            <a>
                                 <h1 id="player-count">↻</h1>
                                 <p>ONLINE PLAYERS</p>
                             </a>
                         </div>
                         <div>
-                            <a href="#">
+                            <a href="server-browser.html">
                                 <h1 id="server-count">↻</h1>
                                 <p>SERVERS</p>
                             </a>
                         </div>
                         <div>
-                            <a href="#">
+                            <a href="misc-info.html?misc=official-servers">
                                 <h1 id="official-servers">↻</h1>
                                 <p>OFFICIAL SERVERS</p>
                             </a>
                         </div>
                         <div>
-                            <a href="#">
+                            <a href="misc-info.html?misc=unofficial-servers">
                                 <h1 id="unofficial-servers">↻</h1>
                                 <p>UNOFFICIAL SERVERS</p>
                             </a>
                         </div>
                         <div>
-                            <a href="#">
+                            <a href="misc-info.html?misc=day-servers">
                                 <h1 id="day-servers">↻</h1>
                                 <p>DAY SERVERS</p>
                             </a>
                         </div>
                         <div>
-                            <a href="#">
+                            <a href="misc-info.html?misc=night-servers">
                                 <h1 id="night-servers">↻</h1>
                                 <p>NIGHT SERVERS</p>
                             </a>
