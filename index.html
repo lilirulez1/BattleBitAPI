@@ -45,6 +45,9 @@
             .main-nav-container {
                 background-color: rgb(15,15,15);
                 padding: 1rem 0;
+                position: sticky;
+                top: 0;
+                z-index: 3;
             }
 
             .main-nav {
@@ -603,6 +606,8 @@
                     MinimalStatsDay.innerText = OverviewData["day"]
                     MinimalStatsNight.innerText = OverviewData["night"]
 
+                    OverviewData.maps.sort((a,b) => b.Players - a.Players)
+
                     OverviewData.maps.forEach(mapData => {
                         const MapName = mapData.Map;
                         const PlayerCount = mapData.Players;
@@ -610,6 +615,7 @@
 
                         const Clone = MapStatsTemplate.content.cloneNode(true);
                         const MapThumbnail = Clone.querySelector("img#map-thumbnail");
+                        const MapAnchor = Clone.querySelector("a");
                         const MapNameElement = Clone.querySelector("h1#name");
                         const MapPlayerCountElement = Clone.querySelector("span#player-count");
                         const MapServerCountElement = Clone.querySelector("span#server-count");
@@ -619,8 +625,12 @@
                         MapPlayerCountElement.innerText = PlayerCount
                         MapServerCountElement.innerText = ServerCount
 
+                        MapAnchor.href = "map-info.html?mapName=" + MapName
+
                         MapStatsGrid.appendChild(Clone)
                     })
+
+                    OverviewData.gamemodes.sort((a,b) => b.Players - a.Players)
 
                     OverviewData.gamemodes.forEach(gamemodeData => {
                         const GamemodeName = gamemodeData.Gamemode;
@@ -639,6 +649,8 @@
                         GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
                     })
 
+                    OverviewData.regions.sort((a,b) => b.Players - a.Players)
+
                     OverviewData.regions.forEach(regionData => {
                         const RegionName = regionData.Region;
                         const PlayerCount = regionData.Players;
@@ -655,6 +667,8 @@
 
                         RegionStatsTable.querySelector("tbody").appendChild(Clone)
                     })
+
+                    OverviewData.mapsize.sort((a,b) => b.Players - a.Players)
 
                     OverviewData.mapsize.forEach(mapsizeData => {
                         const MapsizeName = mapsizeData.Mapsize;

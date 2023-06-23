@@ -39,12 +39,67 @@
 
             main {
                 padding: 2rem;
-                padding-top: 1rem;
+            }
+
+
+            .main-nav-container {
+                background-color: rgb(15,15,15);
+                padding: 1rem 0;
+                position: sticky;
+                top: 0;
+            }
+
+            .main-nav {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                width: 50%;
+                margin: 0 auto;
+            }
+
+            .main-nav > h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: xx-large;
+                margin: 0 0;
+            }
+
+            .main-nav-redirects-container {
+                margin: 0 0;
+                list-style: none;
+                display: table;
+            }
+
+            .main-nav-redirects-container > li {
+                vertical-align: middle;
+                display: table-cell;
+                float: left;
+                height: 100%;
+            }
+
+            .main-nav-redirects-container > li > a {
+                color: rgb(200,200,200);
+                font-weight: 300;
+                display: block;
+                text-align: center;
+                padding: 1rem 1rem;
+            }
+
+            .main-nav-redirects-container > li > a:hover {
+                color: rgb(250,250,250);
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
             }
 
             #server-browser {
                 padding-bottom: 2rem;
-                margin: 0 auto;
+                margin-top: 2rem;
+                margin: 2rem auto;
             }
 
             .server-browser-header > * {
@@ -252,13 +307,15 @@
     </head>
     <body>
         <main>
-            <section id="server-browser">
-                <header class="server-browser-header">
-                    <h1>
-                        SERVER BROWSER
-                    </h1>
-                </header>
+            <section class="main-nav-container">
+                <div class="main-nav">
+                    <h1>SERVER BROWSER</h1>
+                    <ol class="main-nav-redirects-container">
+                    </ol>
+                </div>
+            </section>
 
+            <section id="server-browser">
                 <section id="servers">
                     <table class="servers-list">
                         <thead>
