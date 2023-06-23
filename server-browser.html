@@ -437,8 +437,8 @@
                             serverPlayerCount.innerText += " (" + Server.QueuePlayers + ")"
                         }
                         serverHz.innerText = Server.Hz
-                        MapThumbnail.src = "assets/map_thumbnails" + Server.Map + ".png"
-                        RegionFlag.src = "assets/flags" + Server.Region + ".png"
+                        MapThumbnail.src = "assets/map_thumbnails/" + Server.Map + ".png"
+                        RegionFlag.src = "assets/flags/" + Server.Region + ".png"
 
                         ServerItem.addEventListener("mouseenter", e => {
                             e.preventDefault();
