@@ -199,26 +199,26 @@
                 z-index: 2;
             }
 
-            #gamemode-stats, #region-stats {
+            #gamemode-stats, #region-stats, #mapsize-stats {
                 margin: 0 auto;
             }
 
-            .gamemode-stats-table, .region-stats-table {
+            .gamemode-stats-table, .region-stats-table, .mapsize-stats-table {
                 width: 100%;
                 border-collapse: collapse;
             }
 
-            .gamemode-stats-table > thead > tr > th, .region-stats-table > thead > tr > th {
+            .gamemode-stats-table > thead > tr > th, .region-stats-table > thead > tr > th, .mapsize-stats-table > thead > tr > th {
                 padding: 1rem 1rem;
                 background-color: rgb(15,15,15);
             }
 
-            .gamemode-stats-table > tbody > tr > td, .region-stats-table > tbody > tr > td {
+            .gamemode-stats-table > tbody > tr > td, .region-stats-table > tbody > tr > td, .mapsize-stats-table > tbody > tr > td {
                 background-color: rgb(15,15,15);
                 border: 2px solid rgb(25,25,25);
             }
 
-            .gamemode-stats-name, .region-stats-name {
+            .gamemode-stats-name, .region-stats-name, .mapsize-stats-name {
                 font-weight: 700;
                 width: 70%;
                 padding: 0.5rem;
@@ -372,6 +372,27 @@
                         </tbody>
                     </table>
                 </section>
+
+                <section id="mapsize-stats">
+                    <h1>MAPSIZE</h1>
+                    <table class="mapsize-stats-table" id="mapsize-stats-table">
+                        <thead>
+                            <tr>
+                                <th class="left-text">
+                                    <span>MAPSIZE</span>
+                                </th>
+                                <th class="center-text">
+                                    <span>PLAYERS</span>
+                                </th>
+                                <th  class="center-text">
+                                    <span>SERVERS</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
             </article>
 
             <footer>
@@ -439,6 +460,20 @@
             </tr>
         </template>
 
+        <template id="mapsize-stats-template">
+            <tr>
+                <td class="left-text mapsize-stats-name">
+                    <span id="mapsize-stats-name">N/A</span>
+                </td>
+                <td class="center-text mapsize-stats-players">
+                    <span id="mapsize-stats-players">N/A</span>
+                </td>
+                <td class="center-text mapsize-stats-servers">
+                    <span id="mapsize-stats-servers">N/A</span>
+                </td>
+            </tr>
+        </template>
+
         <script>
             const width = screen.width;
 
@@ -466,6 +501,11 @@
             RegionStats.style.width = width/3 + "px";
             const RegionStatsTable = document.getElementById("region-stats-table");
             const RegionStatsTemplate = document.getElementById("region-stats-template");
+            
+            const MapsizeStats = document.getElementById("mapsize-stats");
+            MapsizeStats.style.width = width/3 + "px";
+            const MapsizeStatsTable = document.getElementById("mapsize-stats-table");
+            const MapsizeStatsTemplate = document.getElementById("mapsize-stats-template");
 
             fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
                 .then(response => response.json())
@@ -478,6 +518,7 @@
                     let maps = []
                     let gamemodes = []
                     let regions = []
+                    let mapsize = []
 
                     Data.forEach(Server => {
                         totalPlayers += Server.Players
@@ -527,6 +568,19 @@
                                 Servers: 1
                             })
                         }
+
+                        const existingMapsize = mapsize.find(server => server.MapSize === Server.MapSize)
+
+                        if (existingMapsize) {
+                            existingMapsize.Players += Server.Players
+                            existingMapsize.Servers += 1
+                        } else {
+                            regions.push({
+                                Mapsize: Server.MapSize,
+                                Players: Server.Players,
+                                Servers: 1
+                            })
+                        }
                     })
 
                     const OverviewData = {
@@ -538,7 +592,8 @@
                         "gamemodes": gamemodes,
                         "regions": regions,
                         "day": day,
-                        "night": night
+                        "night": night,
+                        "mapsize" mapsize
                     }
 
                     MinimalStatsPlayerCount.innerText = OverviewData["player-count"]
@@ -599,6 +654,23 @@
                         RegionServerCountElement.innerText = ServerCount
 
                         RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    })
+
+                    OverviewData.mapsize.forEach(mapsizeData => {
+                        const MapsizeName = mapsizeData.Mapsize;
+                        const PlayerCount = mapsizeData.Players;
+                        const ServerCount = mapsizeData.Servers;
+
+                        const Clone = MapsizeStatsTemplate.content.cloneNode(true);
+                        const MapsizeNameElement = Clone.querySelector("span#mapsize-stats-name");
+                        const MapsizePlayerCountElement = Clone.querySelector("span#mapsize-stats-players");
+                        const MapsizeServerCountElement = Clone.querySelector("span#mapsize-stats-servers");
+
+                        MapsizeNameElement.innerText = MapsizeName.split("_")[0].toUpperCase()
+                        MapsizePlayerCountElement.innerText = PlayerCount
+                        MapsizeServerCountElement.innerText = ServerCount
+
+                        MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
                     })
               })
         </script>
