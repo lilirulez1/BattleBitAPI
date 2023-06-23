@@ -404,7 +404,7 @@
 
             var Selected = null;
 
-            fetch("http://publicapi.battlebit.cloud/Servers/GetServerList")
+            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(Server => {
@@ -472,7 +472,7 @@
                             Selected.querySelector('td.player-count').style.color = 'rgb(50,50,50)';
                             Selected.querySelector('td.server-hz').style.color = 'rgb(50,50,50)';
 
-                            fetch("http://publicapi.battlebit.cloud/Servers/GetServerList")
+                            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
                                 .then(response => response.json())
                                 .then(Servers => {
                                     const UpdatedServer = Servers.find(item => item.Name === Server.Name);
