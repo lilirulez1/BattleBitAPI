@@ -503,10 +503,22 @@
 
             var Selected = null;
 
-            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+            async function ResetIndexData() {
+                ServerListTBody.innerHTML = "";
+            }
+
+            async function GetIndexData() {
+                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
                 .then(response => response.json())
                 .then(data => {
-                    data.forEach(Server => {
+                    return data
+                })
+
+                return Data
+            }
+
+            function RenderIndexData(data) {
+                data.forEach(Server => {
                         const clone = ServerItemTemplate.content.cloneNode(true);
 
                         const ServerItem = clone.querySelector("tr.server-item")
@@ -609,7 +621,21 @@
 
                         ServerListTBody.appendChild(clone);
                     })
+            }
+        
+            function UpdateIndexData() {
+                GetIndexData().then(Data => {
+                    ResetIndexData()
+                    RenderIndexData(Data)
                 })
+            }
+
+            window.addEventListener('load', function () {
+                var fetchInterval = 5000;
+                UpdateIndexData()
+
+                setInterval(UpdateIndexData, fetchInterval);
+            });
         </script>
     </body>
 </html>

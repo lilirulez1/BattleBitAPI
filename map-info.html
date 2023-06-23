@@ -592,196 +592,226 @@
             const RegionStatsTable= document.getElementById("region-stats-table");
             const RegionStatsTemplate = document.getElementById("region-stats-template");
 
-            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
-                .then(response => response.json())
-                .then(Data => {
-                    let Map = {
-                        Map: MapName,
-                        Players: 0,
-                        Day: 0,
-                        Night: 0,
-                        Servers: [],
-                        Gamemodes: [],
-                        MapSizes: [],
-                        Regions: [],
-                    }
+            function ResetIndexData() {
+                ServersListTable.querySelector("tbody").innerHTML = "";
+                GamemodeStatsTable.querySelector("tbody").innerHTML = "";
+                RegionStatsTable.querySelector("tbody").innerHTML = "";
+                MapsizeStatsTable.querySelector("tbody").innerHTML = "";
+            }
 
-                    Data.forEach(Server => {
-                        if (Server.Map === MapName) {
-                            Map.Players += Server.Players
-                            Map.Day += (Server.DayNight === "Day") ? 1 : 0
-                            Map.Night += (Server.DayNight === "Night") ? 1 : 0
+            async function GetIndexData() {
+                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+                    .then(response => response.json())
+                    .then(Data => {
+                        let Map = {
+                            Map: MapName,
+                            Players: 0,
+                            Day: 0,
+                            Night: 0,
+                            Servers: [],
+                            Gamemodes: [],
+                            MapSizes: [],
+                            Regions: [],
+                        }
 
-                            Map.Servers.push({
-                                Name: Server.Name,
-                                Region: Server.Region,
-                                Map: Server.Map,
-                                Gamemode: Server.Gamemode,
-                                AntiCheat: Server.AntiCheat,
-                                Players: Server.Players,
-                                MaxPlayers: Server.MaxPlayers,
-                                QueuePlayers: Server.QueuePlayers,
-                                Hz: Server.Hz
-                            })
-                            
-                            const existingGamemode = Map.Gamemodes.find(gamemode => gamemode.Gamemode === Server.Gamemode)
+                        Data.forEach(Server => {
+                            if (Server.Map === MapName) {
+                                Map.Players += Server.Players
+                                Map.Day += (Server.DayNight === "Day") ? 1 : 0
+                                Map.Night += (Server.DayNight === "Night") ? 1 : 0
 
-                            if (existingGamemode) {
-                                existingGamemode.Players += Server.Players
-                                existingGamemode.Servers += 1
-                            } else {
-                                Map.Gamemodes.push({
-                                    Gamemode: Server.Gamemode,
-                                    Players: Server.Players,
-                                    Servers: 1
-                                })
-                            }
-
-                            const existingMapSize = Map.MapSizes.find(mapSize => mapSize.MapSize === Server.MapSize)
-
-                            if (existingMapSize) {
-                                existingMapSize.Players += Server.Players
-                                existingMapSize.Servers += 1
-                            } else {
-                                Map.MapSizes.push({
-                                    MapSize: Server.MapSize,
-                                    Players: Server.Players,
-                                    Servers: 1
-                                })
-                            }
-
-                            const existingRegion = Map.Regions.find(region => region.Region === Server.Region)
-
-                            if (existingRegion) {
-                                existingRegion.Players += Server.Players
-                                existingRegion.Servers += 1
-                            } else {
-                                Map.Regions.push({
+                                Map.Servers.push({
+                                    Name: Server.Name,
                                     Region: Server.Region,
+                                    Map: Server.Map,
+                                    Gamemode: Server.Gamemode,
+                                    AntiCheat: Server.AntiCheat,
                                     Players: Server.Players,
-                                    Servers: 1
+                                    MaxPlayers: Server.MaxPlayers,
+                                    QueuePlayers: Server.QueuePlayers,
+                                    Hz: Server.Hz
                                 })
+                                
+                                const existingGamemode = Map.Gamemodes.find(gamemode => gamemode.Gamemode === Server.Gamemode)
+
+                                if (existingGamemode) {
+                                    existingGamemode.Players += Server.Players
+                                    existingGamemode.Servers += 1
+                                } else {
+                                    Map.Gamemodes.push({
+                                        Gamemode: Server.Gamemode,
+                                        Players: Server.Players,
+                                        Servers: 1
+                                    })
+                                }
+
+                                const existingMapSize = Map.MapSizes.find(mapSize => mapSize.MapSize === Server.MapSize)
+
+                                if (existingMapSize) {
+                                    existingMapSize.Players += Server.Players
+                                    existingMapSize.Servers += 1
+                                } else {
+                                    Map.MapSizes.push({
+                                        MapSize: Server.MapSize,
+                                        Players: Server.Players,
+                                        Servers: 1
+                                    })
+                                }
+
+                                const existingRegion = Map.Regions.find(region => region.Region === Server.Region)
+
+                                if (existingRegion) {
+                                    existingRegion.Players += Server.Players
+                                    existingRegion.Servers += 1
+                                } else {
+                                    Map.Regions.push({
+                                        Region: Server.Region,
+                                        Players: Server.Players,
+                                        Servers: 1
+                                    })
+                                }
                             }
-                        }
-                    })
-                    
-                    MapNameElement.innerText = Map.Map.toUpperCase()
-
-                    PlayerCount.innerText = Map.Players
-                    ServerCount.innerText = Map.Servers.length
-                    DayServers.innerText = Map.Day
-                    NightServers.innerText = Map.Night
-
-                    Map.Servers.sort((a,b) => b.Players - a.Players)
-
-                    Map.Servers.forEach(serverData => {
-                        const ServerName = serverData.Name
-                        const ServerRegion = serverData.Region
-                        const ServerMap = serverData.Map
-                        const ServerGamemode = serverData.Gamemode
-                        const ServerAntiCheat = serverData.AntiCheat
-                        const ServerPlayers = serverData.Players
-                        const ServerMaxPlayers = serverData.MaxPlayers
-                        const ServerQueuePlayers = serverData.QueuePlayers
-                        const ServerHz = serverData.Hz
-
-                        const Clone = ServersListTemplate.content.cloneNode(true);
-
-                        const ServerItem = Clone.querySelector("tr.server-item")
-                        let td = Clone.querySelectorAll("td");
-
-                        const serverThumbnail = td[0]
-                        const serverDetailsContainer = td[1]
-                        const serverPlayerCount = td[2]
-                        const serverHz = td[3]
-
-                        const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
-
-                        const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
-                        const ServerNameElement = serverDetailsContainer.querySelector("div.server-name")
-                        const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
-                        const RegionFlag = RegionFlagContainer.querySelector("img")
-                        const ServerMapElement = ServerDetails.querySelector("span.map")
-                        const ServerGamemodeElement = ServerDetails.querySelector("span.gamemode")
-                        const ServerAntiCheatElement = ServerDetails.querySelector("span.anticheat")
-
-                        ServerNameElement.innerText = ServerName.toUpperCase()
-                        ServerMapElement.innerText = ServerMap.toUpperCase()
-                        ServerGamemodeElement.innerText = ServerGamemode.toUpperCase()
-                        ServerAntiCheatElement.innerText = ServerAntiCheat.toUpperCase()
-                        serverPlayerCount.innerText = ServerPlayers + " / " + ServerMaxPlayers
-                        if (ServerQueuePlayers > 0) {
-                            serverPlayerCount.innerText += " (" + ServerQueuePlayers + ")"
-                        }
-                        serverHz.innerText = ServerHz
-                        MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
-                        RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
-
-                        ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
-
-                        ServerItem.addEventListener("click", (e) => {
-                            window.location.href = "server-info.html?serverName=" + ServerName
                         })
+                    
+                        return Map
                     })
 
-                    Map.Gamemodes.sort((a,b) => b.Players - a.Players)
+                return Data
+            }
 
-                    Map.Gamemodes.forEach(gamemodeData => {
-                        const GamemodeName = gamemodeData.Gamemode;
-                        const PlayerCount = gamemodeData.Players;
-                        const ServerCount = gamemodeData.Servers;
+            function RenderIndexData(Map) {
+                MapNameElement.innerText = Map.Map.toUpperCase()
 
-                        const Clone = GamemodeStatsTemplate.content.cloneNode(true);
-                        const GamemodeNameElement = Clone.querySelector("span#gamemode-stats-name");
-                        const GamemodePlayerCountElement = Clone.querySelector("span#gamemode-stats-players");
-                        const GamemodeServerCountElement = Clone.querySelector("span#gamemode-stats-servers");
+                PlayerCount.innerText = Map.Players
+                ServerCount.innerText = Map.Servers.length
+                DayServers.innerText = Map.Day
+                NightServers.innerText = Map.Night
 
-                        GamemodeNameElement.innerText = GamemodeName.toUpperCase()
-                        GamemodePlayerCountElement.innerText = PlayerCount
-                        GamemodeServerCountElement.innerText = ServerCount
+                Map.Servers.sort((a,b) => b.Players - a.Players)
 
-                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
-                    })
+                Map.Servers.forEach(serverData => {
+                    const ServerName = serverData.Name
+                    const ServerRegion = serverData.Region
+                    const ServerMap = serverData.Map
+                    const ServerGamemode = serverData.Gamemode
+                    const ServerAntiCheat = serverData.AntiCheat
+                    const ServerPlayers = serverData.Players
+                    const ServerMaxPlayers = serverData.MaxPlayers
+                    const ServerQueuePlayers = serverData.QueuePlayers
+                    const ServerHz = serverData.Hz
 
-                    Map.MapSizes.sort((a,b) => b.Players - a.Players)
+                    const Clone = ServersListTemplate.content.cloneNode(true);
 
-                    Map.MapSizes.forEach(mapsizeData => {
-                        const MapsizeName = mapsizeData.MapSize;
-                        const PlayerCount = mapsizeData.Players;
-                        const ServerCount = mapsizeData.Servers;
+                    const ServerItem = Clone.querySelector("tr.server-item")
+                    let td = Clone.querySelectorAll("td");
 
-                        const Clone = MapsizeStatsTemplate.content.cloneNode(true);
-                        const NameElement = Clone.querySelector("span#mapsize-stats-name");
-                        const PlayerCountElement = Clone.querySelector("span#mapsize-stats-players");
-                        const ServerCountElement = Clone.querySelector("span#mapsize-stats-servers");
+                    const serverThumbnail = td[0]
+                    const serverDetailsContainer = td[1]
+                    const serverPlayerCount = td[2]
+                    const serverHz = td[3]
 
-                        NameElement.innerText = MapsizeName.toUpperCase()
-                        PlayerCountElement.innerText = PlayerCount
-                        ServerCountElement.innerText = ServerCount
+                    const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
 
-                        MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
-                    })
+                    const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
+                    const ServerNameElement = serverDetailsContainer.querySelector("div.server-name")
+                    const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
+                    const RegionFlag = RegionFlagContainer.querySelector("img")
+                    const ServerMapElement = ServerDetails.querySelector("span.map")
+                    const ServerGamemodeElement = ServerDetails.querySelector("span.gamemode")
+                    const ServerAntiCheatElement = ServerDetails.querySelector("span.anticheat")
 
-                    Map.Regions.sort((a,b) => b.Players - a.Players)
+                    ServerNameElement.innerText = ServerName.toUpperCase()
+                    ServerMapElement.innerText = ServerMap.toUpperCase()
+                    ServerGamemodeElement.innerText = ServerGamemode.toUpperCase()
+                    ServerAntiCheatElement.innerText = ServerAntiCheat.toUpperCase()
+                    serverPlayerCount.innerText = ServerPlayers + " / " + ServerMaxPlayers
+                    if (ServerQueuePlayers > 0) {
+                        serverPlayerCount.innerText += " (" + ServerQueuePlayers + ")"
+                    }
+                    serverHz.innerText = ServerHz
+                    MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
+                    RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
 
-                    Map.Regions.forEach(regionData => {
-                        const RegionName = regionData.Region;
-                        const PlayerCount = regionData.Players;
-                        const ServerCount = regionData.Servers;
+                    ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
 
-                        const Clone = RegionStatsTemplate.content.cloneNode(true);
-                        const NameElement = Clone.querySelector("span#region-stats-name");
-                        const PlayerCountElement = Clone.querySelector("span#region-stats-players");
-                        const ServerCountElement = Clone.querySelector("span#region-stats-servers");
-
-                        NameElement.innerText = RegionName.split("_")[0].toUpperCase()
-                        PlayerCountElement.innerText = PlayerCount
-                        ServerCountElement.innerText = ServerCount
-
-                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    ServerItem.addEventListener("click", (e) => {
+                        window.location.href = "server-info.html?serverName=" + ServerName
                     })
                 })
 
+                Map.Gamemodes.sort((a,b) => b.Players - a.Players)
+
+                Map.Gamemodes.forEach(gamemodeData => {
+                    const GamemodeName = gamemodeData.Gamemode;
+                    const PlayerCount = gamemodeData.Players;
+                    const ServerCount = gamemodeData.Servers;
+
+                    const Clone = GamemodeStatsTemplate.content.cloneNode(true);
+                    const GamemodeNameElement = Clone.querySelector("span#gamemode-stats-name");
+                    const GamemodePlayerCountElement = Clone.querySelector("span#gamemode-stats-players");
+                    const GamemodeServerCountElement = Clone.querySelector("span#gamemode-stats-servers");
+
+                    GamemodeNameElement.innerText = GamemodeName.toUpperCase()
+                    GamemodePlayerCountElement.innerText = PlayerCount
+                    GamemodeServerCountElement.innerText = ServerCount
+
+                    GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+
+                Map.MapSizes.sort((a,b) => b.Players - a.Players)
+
+                Map.MapSizes.forEach(mapsizeData => {
+                    const MapsizeName = mapsizeData.MapSize;
+                    const PlayerCount = mapsizeData.Players;
+                    const ServerCount = mapsizeData.Servers;
+
+                    const Clone = MapsizeStatsTemplate.content.cloneNode(true);
+                    const NameElement = Clone.querySelector("span#mapsize-stats-name");
+                    const PlayerCountElement = Clone.querySelector("span#mapsize-stats-players");
+                    const ServerCountElement = Clone.querySelector("span#mapsize-stats-servers");
+
+                    NameElement.innerText = MapsizeName.toUpperCase()
+                    PlayerCountElement.innerText = PlayerCount
+                    ServerCountElement.innerText = ServerCount
+
+                    MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+
+                Map.Regions.sort((a,b) => b.Players - a.Players)
+
+                Map.Regions.forEach(regionData => {
+                    const RegionName = regionData.Region;
+                    const PlayerCount = regionData.Players;
+                    const ServerCount = regionData.Servers;
+
+                    const Clone = RegionStatsTemplate.content.cloneNode(true);
+                    const NameElement = Clone.querySelector("span#region-stats-name");
+                    const PlayerCountElement = Clone.querySelector("span#region-stats-players");
+                    const ServerCountElement = Clone.querySelector("span#region-stats-servers");
+
+                    NameElement.innerText = RegionName.split("_")[0].toUpperCase()
+                    PlayerCountElement.innerText = PlayerCount
+                    ServerCountElement.innerText = ServerCount
+
+                    RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+            }
+
+
+
+            function UpdateIndexData() {
+                GetIndexData().then(Data => {
+                    ResetIndexData()
+                    RenderIndexData(Data)
+                })
+            }
+
+            window.addEventListener('load', function () {
+                var fetchInterval = 1000;
+                UpdateIndexData()
+
+                setInterval(UpdateIndexData, fetchInterval);
+            });
         </script>
     </body>
 </html>

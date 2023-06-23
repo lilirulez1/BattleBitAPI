@@ -465,25 +465,50 @@
 
             const ServerSettingTemplate = document.getElementById("server-setting-template")
 
-            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
-                .then(response => response.json())
-                .then(Data => {
-                    const Server = Data.find(server => server.Name === ServerName)
+            const temp = ServerSettingTemplate.content.cloneNode(true);
+            temp.querySelector("span#setting-name").innerText = "Nothing to put here"
+            temp.querySelector("span#setting-value").innerText = "#exposemoreapi"
 
-                    ServerNameElement.innerText = Server.Name
-                    PlayerCount.innerText = Server.Players
-                    ServerTick.innerText = Server.Hz
-                    ServerMap.innerText = Server.Map.toUpperCase()
-                    ServerMapSize.innerText = Server.MapSize.toUpperCase()
-                    ServerGamemode.innerText = Server.Gamemode.toUpperCase()
+            ServerSettings.querySelector("tbody").appendChild(temp);
 
-                    const temp = ServerSettingTemplate.content.cloneNode(true);
-                    temp.querySelector("span#setting-name").innerText = "Nothing to put here"
-                    temp.querySelector("span#setting-value").innerText = "#exposemoreapi"
+            function ResetIndexData() {
 
-                    ServerSettings.querySelector("tbody").appendChild(temp);
+            }
+
+            async function GetIndexData() {
+                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+                    .then(response => response.json())
+                    .then(Data => {
+                        const Server = Data.find(server => server.Name === ServerName)
+
+                        return Server
+                    })
+                
+                return Data
+            }
+
+            function RenderIndexData(Server) {
+                ServerNameElement.innerText = Server.Name
+                PlayerCount.innerText = Server.Players
+                ServerTick.innerText = Server.Hz
+                ServerMap.innerText = Server.Map.toUpperCase()
+                ServerMapSize.innerText = Server.MapSize.toUpperCase()
+                ServerGamemode.innerText = Server.Gamemode.toUpperCase()
+            }
+
+            function UpdateIndexData() {
+                GetIndexData().then(Data => {
+                    ResetIndexData()
+                    RenderIndexData(Data)
                 })
+            }
 
+            window.addEventListener('load', function () {
+                var fetchInterval = 1000;
+                UpdateIndexData()
+
+                setInterval(UpdateIndexData, fetchInterval);
+            });
         </script>
     </body>
 </html>

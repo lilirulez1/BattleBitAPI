@@ -639,139 +639,166 @@
                 return MiscInfo
             }
 
-            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
-                .then(response => response.json())
-                .then(Data => {
-                    let MiscData = {}
+            function ResetIndexData() {
+                ServersListTable.querySelector("tbody").innerHTML = "";
+                GamemodeStatsTable.querySelector("tbody").innerHTML = "";
+                RegionStatsTable.querySelector("tbody").innerHTML = "";
+                MapsizeStatsTable.querySelector("tbody").innerHTML = "";
+            }
 
-                    if (MiscName === "official-servers") {
-                        MiscNameElement.innerText = "OFFICIAL SERVERS"
-                        MiscData = SearchForMisc(Data, "OfficialServers")
-                    } else if (MiscName === "unofficial-servers") {
-                        MiscNameElement.innerText = "UNOFFICIAL SERVERS"
-                        MiscData = SearchForMisc(Data, "UnofficialServers")
-                    } else if (MiscName === "day-servers") {
-                        MiscNameElement.innerText = "DAY SERVERS"
-                        MiscData = SearchForMisc(Data, "DayServers")
-                    } else if (MiscName === "night-servers") {
-                        MiscNameElement.innerText = "NIGHT SERVERS"
-                        MiscData = SearchForMisc(Data, "NightServers")
-                    }
+            async function GetIndexData() {
+                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+                    .then(response => response.json())
+                    .then(Data => {
+                        let MiscData = {}
 
-                    PlayerCount.innerText = MiscData.Players
-                    ServerCount.innerText = MiscData.Servers.length
-
-                    MiscData.Servers.sort((a,b) => b.Players - a.Players)
-
-                    MiscData.Servers.forEach(serverData => {
-                        const ServerName = serverData.Name
-                        const ServerRegion = serverData.Region
-                        const ServerMap = serverData.Map
-                        const ServerGamemode = serverData.Gamemode
-                        const ServerAntiCheat = serverData.AntiCheat
-                        const ServerPlayers = serverData.Players
-                        const ServerMaxPlayers = serverData.MaxPlayers
-                        const ServerQueuePlayers = serverData.QueuePlayers
-                        const ServerHz = serverData.Hz
-
-                        const Clone = ServersListTemplate.content.cloneNode(true);
-
-                        const ServerItem = Clone.querySelector("tr.server-item")
-                        let td = Clone.querySelectorAll("td");
-
-                        const serverThumbnail = td[0]
-                        const serverDetailsContainer = td[1]
-                        const serverPlayerCount = td[2]
-                        const serverHz = td[3]
-
-                        const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
-
-                        const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
-                        const ServerNameElement = serverDetailsContainer.querySelector("div.server-name")
-                        const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
-                        const RegionFlag = RegionFlagContainer.querySelector("img")
-                        const ServerMapElement = ServerDetails.querySelector("span.map")
-                        const ServerGamemodeElement = ServerDetails.querySelector("span.gamemode")
-                        const ServerAntiCheatElement = ServerDetails.querySelector("span.anticheat")
-
-                        ServerNameElement.innerText = ServerName.toUpperCase()
-                        ServerMapElement.innerText = ServerMap.toUpperCase()
-                        ServerGamemodeElement.innerText = ServerGamemode.toUpperCase()
-                        ServerAntiCheatElement.innerText = ServerAntiCheat.toUpperCase()
-                        serverPlayerCount.innerText = ServerPlayers + " / " + ServerMaxPlayers
-                        if (ServerQueuePlayers > 0) {
-                            serverPlayerCount.innerText += " (" + ServerQueuePlayers + ")"
+                        if (MiscName === "official-servers") {
+                            MiscNameElement.innerText = "OFFICIAL SERVERS"
+                            MiscData = SearchForMisc(Data, "OfficialServers")
+                        } else if (MiscName === "unofficial-servers") {
+                            MiscNameElement.innerText = "UNOFFICIAL SERVERS"
+                            MiscData = SearchForMisc(Data, "UnofficialServers")
+                        } else if (MiscName === "day-servers") {
+                            MiscNameElement.innerText = "DAY SERVERS"
+                            MiscData = SearchForMisc(Data, "DayServers")
+                        } else if (MiscName === "night-servers") {
+                            MiscNameElement.innerText = "NIGHT SERVERS"
+                            MiscData = SearchForMisc(Data, "NightServers")
                         }
-                        serverHz.innerText = ServerHz
-                        MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
-                        RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
 
-                        ServerItem.addEventListener("click", (e) => {
-                            window.location.href = "server-info.html?serverName=" + ServerName
-                        })
-
-                        ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
+                        return MiscData
                     })
 
-                    MiscData.Gamemodes.sort((a,b) => b.Players - a.Players)
+                return Data
+            }
+            
+            function RenderIndexData(MiscData) {
+                PlayerCount.innerText = MiscData.Players
+                ServerCount.innerText = MiscData.Servers.length
 
-                    MiscData.Gamemodes.forEach(Data => {
-                        const GamemodeName = Data.Gamemode;
-                        const PlayerCount = Data.Players;
-                        const ServerCount = Data.Servers;
+                MiscData.Servers.sort((a,b) => b.Players - a.Players)
 
-                        const Clone = StatsTemplate.content.cloneNode(true);
-                        const GamemodeNameElement = Clone.querySelector("span#stats-name");
-                        const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
-                        const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
+                MiscData.Servers.forEach(serverData => {
+                    const ServerName = serverData.Name
+                    const ServerRegion = serverData.Region
+                    const ServerMap = serverData.Map
+                    const ServerGamemode = serverData.Gamemode
+                    const ServerAntiCheat = serverData.AntiCheat
+                    const ServerPlayers = serverData.Players
+                    const ServerMaxPlayers = serverData.MaxPlayers
+                    const ServerQueuePlayers = serverData.QueuePlayers
+                    const ServerHz = serverData.Hz
 
-                        GamemodeNameElement.innerText = GamemodeName.toUpperCase()
-                        GamemodePlayerCountElement.innerText = PlayerCount
-                        GamemodeServerCountElement.innerText = ServerCount
+                    const Clone = ServersListTemplate.content.cloneNode(true);
 
-                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    const ServerItem = Clone.querySelector("tr.server-item")
+                    let td = Clone.querySelectorAll("td");
+
+                    const serverThumbnail = td[0]
+                    const serverDetailsContainer = td[1]
+                    const serverPlayerCount = td[2]
+                    const serverHz = td[3]
+
+                    const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
+
+                    const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
+                    const ServerNameElement = serverDetailsContainer.querySelector("div.server-name")
+                    const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
+                    const RegionFlag = RegionFlagContainer.querySelector("img")
+                    const ServerMapElement = ServerDetails.querySelector("span.map")
+                    const ServerGamemodeElement = ServerDetails.querySelector("span.gamemode")
+                    const ServerAntiCheatElement = ServerDetails.querySelector("span.anticheat")
+
+                    ServerNameElement.innerText = ServerName.toUpperCase()
+                    ServerMapElement.innerText = ServerMap.toUpperCase()
+                    ServerGamemodeElement.innerText = ServerGamemode.toUpperCase()
+                    ServerAntiCheatElement.innerText = ServerAntiCheat.toUpperCase()
+                    serverPlayerCount.innerText = ServerPlayers + " / " + ServerMaxPlayers
+                    if (ServerQueuePlayers > 0) {
+                        serverPlayerCount.innerText += " (" + ServerQueuePlayers + ")"
+                    }
+                    serverHz.innerText = ServerHz
+                    MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
+                    RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
+
+                    ServerItem.addEventListener("click", (e) => {
+                        window.location.href = "server-info.html?serverName=" + ServerName
                     })
-                    
-                    MiscData.MapSizes.sort((a,b) => b.Players - a.Players)
 
-                    MiscData.MapSizes.forEach(Data => {
-                        const GamemodeName = Data.MapSize;
-                        const PlayerCount = Data.Players;
-                        const ServerCount = Data.Servers;
-
-                        const Clone = StatsTemplate.content.cloneNode(true);
-                        const GamemodeNameElement = Clone.querySelector("span#stats-name");
-                        const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
-                        const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
-
-                        GamemodeNameElement.innerText = GamemodeName.toUpperCase()
-                        GamemodePlayerCountElement.innerText = PlayerCount
-                        GamemodeServerCountElement.innerText = ServerCount
-
-                        MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
-                    })
-                                        
-                    MiscData.Regions.sort((a,b) => b.Players - a.Players)
-
-                    MiscData.Regions.forEach(Data => {
-                        const GamemodeName = Data.Region;
-                        const PlayerCount = Data.Players;
-                        const ServerCount = Data.Servers;
-
-                        const Clone = StatsTemplate.content.cloneNode(true);
-                        const GamemodeNameElement = Clone.querySelector("span#stats-name");
-                        const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
-                        const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
-
-                        GamemodeNameElement.innerText = GamemodeName.split("_")[0].toUpperCase()
-                        GamemodePlayerCountElement.innerText = PlayerCount
-                        GamemodeServerCountElement.innerText = ServerCount
-
-                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
-                    })
-
-
+                    ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
                 })
+
+                MiscData.Gamemodes.sort((a,b) => b.Players - a.Players)
+
+                MiscData.Gamemodes.forEach(Data => {
+                    const GamemodeName = Data.Gamemode;
+                    const PlayerCount = Data.Players;
+                    const ServerCount = Data.Servers;
+
+                    const Clone = StatsTemplate.content.cloneNode(true);
+                    const GamemodeNameElement = Clone.querySelector("span#stats-name");
+                    const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
+                    const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
+
+                    GamemodeNameElement.innerText = GamemodeName.toUpperCase()
+                    GamemodePlayerCountElement.innerText = PlayerCount
+                    GamemodeServerCountElement.innerText = ServerCount
+
+                    GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+                
+                MiscData.MapSizes.sort((a,b) => b.Players - a.Players)
+
+                MiscData.MapSizes.forEach(Data => {
+                    const GamemodeName = Data.MapSize;
+                    const PlayerCount = Data.Players;
+                    const ServerCount = Data.Servers;
+
+                    const Clone = StatsTemplate.content.cloneNode(true);
+                    const GamemodeNameElement = Clone.querySelector("span#stats-name");
+                    const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
+                    const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
+
+                    GamemodeNameElement.innerText = GamemodeName.toUpperCase()
+                    GamemodePlayerCountElement.innerText = PlayerCount
+                    GamemodeServerCountElement.innerText = ServerCount
+
+                    MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+                                    
+                MiscData.Regions.sort((a,b) => b.Players - a.Players)
+
+                MiscData.Regions.forEach(Data => {
+                    const GamemodeName = Data.Region;
+                    const PlayerCount = Data.Players;
+                    const ServerCount = Data.Servers;
+
+                    const Clone = StatsTemplate.content.cloneNode(true);
+                    const GamemodeNameElement = Clone.querySelector("span#stats-name");
+                    const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
+                    const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
+
+                    GamemodeNameElement.innerText = GamemodeName.split("_")[0].toUpperCase()
+                    GamemodePlayerCountElement.innerText = PlayerCount
+                    GamemodeServerCountElement.innerText = ServerCount
+
+                    RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                })
+            }
+
+            function UpdateIndexData() {
+                GetIndexData().then(Data => {
+                    ResetIndexData()
+                    RenderIndexData(Data)
+                })
+            }
+
+            window.addEventListener('load', function () {
+                var fetchInterval = 1000;
+                UpdateIndexData()
+
+                setInterval(UpdateIndexData, fetchInterval);
+            });
 
         </script>
     </body>
