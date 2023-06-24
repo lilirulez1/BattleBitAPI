@@ -165,7 +165,7 @@
                 width: 100%;
             }
 
-            .server-details {
+            #server-details {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -175,7 +175,7 @@
                 font-size: small;
             }
 
-            .server-details > * {
+            #server-details > * {
                 padding: 0.25rem;
             }
 
@@ -322,6 +322,14 @@
             .float-right {
                 float: right;
             }
+
+            .server-full {
+                background-color: rgb(35,25,25);
+            }
+
+            .server-text-full {
+                color: rgb(150,150,150);
+            }
             
             footer {
                 color: rgb(35,35,35);
@@ -452,7 +460,7 @@
                 </td>
                 <td class="server">
                     <div class="server-name">177-8V-12</div>
-                    <div class="server-details">
+                    <div id="server-details">
                         <span class="region-flag">
                             <img src="">
                         </span>
@@ -503,9 +511,6 @@
 
             var Selected = null;
 
-            async function ResetIndexData() {
-                ServerListTBody.innerHTML = "";
-            }
 
             async function GetIndexData() {
                 const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
@@ -517,19 +522,76 @@
                 return Data
             }
 
+            function ClearRemovedServers(Data) {
+                const ServerItems = document.querySelectorAll("tr.server-item")
+
+                ServerItems.forEach(ServerItem => {
+                    const APIMatch = Data.find(server => server.Name === ServerItem.id)
+
+                    if (!APIMatch) {
+                        ServerItem.remove()
+                    }
+                })
+            }
+
             function RenderIndexData(data) {
                 data.forEach(Server => {
-                        const clone = ServerItemTemplate.content.cloneNode(true);
+                        let ServerItem = document.getElementById(Server.Name)
+                        var Append = false
+                        let IsFull = false
 
-                        const ServerItem = clone.querySelector("tr.server-item")
-                        let td = clone.querySelectorAll("td");
+                        if (!ServerItem) {
+                            Append = true
+                            clone = ServerItemTemplate.content.cloneNode(true);
+                            ServerItem = clone.querySelector("tr.server-item")
+                            ServerItem.id = Server.Name
+
+                            ServerItem.addEventListener("mouseenter", e => {
+                                e.preventDefault();
+                                
+                                if (ServerItem !== Selected) {
+                                    const Color = IsFull ? [30,20,20] : [10,10,10]
+
+                                    ServerItem.style.backgroundColor = "rgb(" + Color[0] + "," + Color[1] + "," + Color[2] + ")"
+                                }
+                            })
+
+                            ServerItem.addEventListener("mouseleave", e => {
+                                e.preventDefault();
+
+                                if (ServerItem !== Selected) {
+                                    ServerItem.style.backgroundColor = ""
+                                }
+                            })
+
+                            ServerItem.addEventListener("click", e => {
+                                e.preventDefault();
+
+                                if (Selected) {
+                                    Selected.style.backgroundColor = "";
+                                    Selected.querySelector('div.server-name').style.color = '';
+                                    Selected.querySelector('td.player-count').style.color = '';
+                                    Selected.querySelector('td.server-hz').style.color = '';
+                                }
+
+                                Selected = ServerItem;
+                                Selected.style.backgroundColor = "rgb(225,225,225)";
+                                Selected.querySelector('div.server-name').style.color = 'rgb(50,50,50)';
+                                Selected.querySelector('td.player-count').style.color = 'rgb(50,50,50)';
+                                Selected.querySelector('td.server-hz').style.color = 'rgb(50,50,50)';
+
+                                UpdateAsideData(Server.Name)
+                            })
+                        }
+                        
+                        let td = ServerItem.querySelectorAll("td");
 
                         const serverThumbnail = td[0]
                         const serverDetailsContainer = td[1]
                         const serverPlayerCount = td[2]
                         const serverHz = td[3]
 
-                        const ServerDetails = serverDetailsContainer.querySelector("div.server-details")
+                        const ServerDetails = serverDetailsContainer.querySelector("div#server-details")
 
                         const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
                         const ServerName = serverDetailsContainer.querySelector("div.server-name")
@@ -551,82 +613,91 @@
                         MapThumbnail.src = "assets/map_thumbnails/" + Server.Map + ".png"
                         RegionFlag.src = "assets/flags/" + Server.Region + ".png"
 
-                        ServerItem.addEventListener("mouseenter", e => {
-                            e.preventDefault();
-                            
-                            if (ServerItem !== Selected) {
-                                ServerItem.style.backgroundColor = "rgb(10,10,10)";
-                            }
-                        })
+                        if (Server.Players >= Server.MaxPlayers) {
+                            IsFull = true
+                            if (ServerItem == Selected) { return }
 
-                        ServerItem.addEventListener("mouseleave", e => {
-                            e.preventDefault();
+                            console.log(ServerItem)
+                            ServerItem.className = "server-full"
+                            ServerItem.querySelector('div#server-details').className = "server-full-text"
+                        }
 
-                            if (ServerItem !== Selected) {
-                                ServerItem.style.backgroundColor = "rgb(15,15,15)";
-                            }
-                        })
-
-                        ServerItem.addEventListener("click", e => {
-                            e.preventDefault();
-
-                            if (Selected) {
-                                Selected.style.backgroundColor = "rgb(15,15,15)";
-                                Selected.querySelector('div.server-name').style.color = 'white';
-                            Selected.querySelector('td.player-count').style.color = 'white';
-                            Selected.querySelector('td.server-hz').style.color = 'white';
-                            }
-
-                            Selected = ServerItem;
-                            Selected.style.backgroundColor = "rgb(225,225,225)";
-                            Selected.querySelector('div.server-name').style.color = 'rgb(50,50,50)';
-                            Selected.querySelector('td.player-count').style.color = 'rgb(50,50,50)';
-                            Selected.querySelector('td.server-hz').style.color = 'rgb(50,50,50)';
-
-                            fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
-                                .then(response => response.json())
-                                .then(Servers => {
-                                    const UpdatedServer = Servers.find(item => item.Name === Server.Name);
-                                  
-                                    AsideServerInfo.style.display = "block";
-                                    QuickInfoBanner.src = "assets/map_thumbnails/" + UpdatedServer.Map + ".png"
-                                    QuickInfoServerName.innerText = UpdatedServer.Name.toUpperCase()
-                                    QuickInfoMapName.innerText = UpdatedServer.Map.toUpperCase()
-                                    QuickInfoMapGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
-                                    QuickInfoMapSize.innerText = UpdatedServer.MapSize.toUpperCase()
-
-                                    MoreInfoPlayers.innerText = UpdatedServer.Players
-                                    MoreInfoMaxPlayers.innerText = UpdatedServer.MaxPlayers
-                                    MoreInfoQueue.innerText = UpdatedServer.QueuePlayers
-                                    MoreInfoDayNight.innerText = UpdatedServer.DayNight
-                                    MoreInfoRegion.innerText = UpdatedServer.Region
-                                    MoreInfoTick.innerText = UpdatedServer.Hz
-                                    MoreInfoIsOfficial.innerText = UpdatedServer.IsOfficial
-                                    MoreInfoHasPassword.innerText = UpdatedServer.HasPassword 
-                                    MoreInfoAntiCheat.innerText = UpdatedServer.AntiCheat
-                                    MoreInfoBuild.innerText = UpdatedServer.Build
-
-                                    MoreInfoButton.href = "server-info.html?serverName=" + UpdatedServer.Name
-                                    
-                                    ServerMap.innerText = UpdatedServer.Map.toUpperCase()
-                                    ServerGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
-                                    serverPlayerCount.innerText = UpdatedServer.Players + " / " + UpdatedServer.MaxPlayers
-                                    if (UpdatedServer.QueuePlayers > 0) {
-                                        serverPlayerCount.innerText += " (" + UpdatedServer.QueuePlayers + ")"
-                                    }
-                                    MapThumbnail.src = "assets/map_thumbnails/" + UpdatedServer.Map + ".png"   
-                                })
-                        })
-
-
-                        ServerListTBody.appendChild(clone);
+                        if (Append == true) {
+                            ServerListTBody.appendChild(clone);
+                        }
                     })
             }
         
+
+            async function GetAsideData(ServerName) {
+                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")                
+                    .then(response => response.json())
+                    .then(data => {
+                        return data
+                    })
+                
+                return Data.find(server => server.Name === ServerName)
+            }
+
+            function RenderAsideData(UpdatedServer) {
+                let ServerItem = document.getElementById(UpdatedServer.Name)
+                let td = ServerItem.querySelectorAll("td");
+
+                const serverThumbnail = td[0]
+                const serverDetailsContainer = td[1]
+                const serverPlayerCount = td[2]
+                const serverHz = td[3]
+
+                const ServerDetails = serverDetailsContainer.querySelector("div#server-details")
+
+                const MapThumbnail = serverThumbnail.querySelector("img.map-thumbnail")
+                const ServerName = serverDetailsContainer.querySelector("div.server-name")
+                const RegionFlagContainer = serverDetailsContainer.querySelector("span.region-flag")
+                const RegionFlag = RegionFlagContainer.querySelector("img")
+                const ServerMap = ServerDetails.querySelector("span.map")
+                const ServerGamemode = ServerDetails.querySelector("span.gamemode")
+                const ServerAnticheat = ServerDetails.querySelector("span.anticheat")
+
+                AsideServerInfo.style.display = "block";
+                QuickInfoBanner.src = "assets/map_thumbnails/" + UpdatedServer.Map + ".png"
+                QuickInfoServerName.innerText = UpdatedServer.Name.toUpperCase()
+                QuickInfoMapName.innerText = UpdatedServer.Map.toUpperCase()
+                QuickInfoMapGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
+                QuickInfoMapSize.innerText = UpdatedServer.MapSize.toUpperCase()
+
+                MoreInfoPlayers.innerText = UpdatedServer.Players
+                MoreInfoMaxPlayers.innerText = UpdatedServer.MaxPlayers
+                MoreInfoQueue.innerText = UpdatedServer.QueuePlayers
+                MoreInfoDayNight.innerText = UpdatedServer.DayNight
+                MoreInfoRegion.innerText = UpdatedServer.Region
+                MoreInfoTick.innerText = UpdatedServer.Hz
+                MoreInfoIsOfficial.innerText = UpdatedServer.IsOfficial
+                MoreInfoHasPassword.innerText = UpdatedServer.HasPassword 
+                MoreInfoAntiCheat.innerText = UpdatedServer.AntiCheat
+                MoreInfoBuild.innerText = UpdatedServer.Build
+
+                MoreInfoButton.href = "server-info.html?serverName=" + UpdatedServer.Name
+                
+                ServerMap.innerText = UpdatedServer.Map.toUpperCase()
+                ServerGamemode.innerText = UpdatedServer.Gamemode.toUpperCase()
+                serverPlayerCount.innerText = UpdatedServer.Players + " / " + UpdatedServer.MaxPlayers
+                if (UpdatedServer.QueuePlayers > 0) {
+                    serverPlayerCount.innerText += " (" + UpdatedServer.QueuePlayers + ")"
+                }
+                MapThumbnail.src = "assets/map_thumbnails/" + UpdatedServer.Map + ".png"   
+            }
+
             function UpdateIndexData() {
                 GetIndexData().then(Data => {
-                    ResetIndexData()
+                    ClearRemovedServers(Data)
                     RenderIndexData(Data)
+                })
+            }
+
+            function UpdateAsideData() {
+                if (!Selected) { return }
+                GetAsideData(Selected.id).then(Data => {
+                    RenderAsideData(Data)
                 })
             }
 
@@ -635,6 +706,7 @@
                 UpdateIndexData()
 
                 setInterval(UpdateIndexData, fetchInterval);
+                setInterval(UpdateAsideData, fetchInterval);
             });
         </script>
     </body>
