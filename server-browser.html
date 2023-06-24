@@ -135,6 +135,12 @@
                 white-space: nowrap;
                 text-align: center;
                 padding: 0 1rem;
+                text-decoration: none;
+            }
+
+            .player-count:hover {
+                text-decoration: underline;
+                cursor: default;
             }
 
             .server-hz {
@@ -143,6 +149,12 @@
                 width: 5%;
                 text-align: center;
                 padding: 0 1rem;
+                text-decoration: none;
+            }
+
+            .server-hz:hover {
+                text-decoration: underline;
+                cursor: default;
             }
 
             .servers-list {
@@ -228,7 +240,6 @@
             aside {
                 position: sticky;
                 top: 7rem;
-                margin-top: 2px;
                 align-self: flex-start;
                 width: 22.5%;
                 margin-left: 2.5%;
@@ -241,12 +252,37 @@
                 color: black;
                 text-align: center;
                 box-sizing: border-box;
-                padding: 1rem;
+                padding: 0.5rem;
                 margin: 2rem 0;
                 border: 0 solid;
-                font-size: x-large;
+                font-size: 1vh;
                 font-weight: 700;
                 width: 100%;
+            }
+
+            #aside-server-info > a:hover {
+                cursor: pointer;
+                background-color: rgb(200,200,200);
+            }
+
+            #apply {
+                display: block;
+                background-color: white;
+                color: black;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 0.5rem;
+                margin: 2rem 0;
+                margin-top: 0;
+                border: 0 solid;
+                font-size: 1vh;
+                font-weight: 700;
+                width: 100%;
+            }
+
+            #apply:hover {
+                cursor: pointer;
+                background-color: rgb(200,200,200);
             }
 
             .quick-info {
@@ -286,30 +322,31 @@
                 color: rgb(200, 200, 200);
             }
 
-            .more-info-container {
+            .more-info-container, .filter-container {
                 box-sizing: border-box;
                 background-color: rgb(15,15,15);
                 width: 100%;
                 padding: 1rem;
             }
 
-            .more-info {
+            .more-info, .filters {
                 border-collapse: collapse;
                 width: 100%;
                 height: 100%;
             }
 
-            .more-info > tbody > tr > td {
+            .more-info > tbody > tr > td, .filters > tbody > tr > td {
                 border: 0px solid white;
+                font-size: 1vh;
             }
 
-            .server-info-key {
+            .server-info-key, .key {
                 font-weight: 300;
                 font-size: medium;
                 color: rgb(200, 200, 200);
             }
 
-            .server-info-value {
+            .server-info-value, .value {
                 font-weight: 500;
                 font-size: medium;
                 color: rgb(250, 250, 250);
@@ -329,6 +366,37 @@
 
             .server-text-full {
                 color: rgb(150,150,150);
+            }
+
+            .block {
+                display: block;
+            }
+
+            .aside-right {
+                margin-right: 2.5%;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            ul > li {
+                display: flex;
+                align-items: center;
+            }
+
+            input[type="checkbox"] {
+                width: 14px;
+                height: 14px;
+                border-radius: 0;
+                outline: none;
+                background-color: white;
+            }
+
+            input[type="checkbox"]:checked + label::before {
+                background-color: black;
             }
             
             footer {
@@ -363,16 +431,92 @@
 
             <section id="server-browser">
                 <section id="servers">
+                    <aside class="aside-right">
+                        <div class="aside-filter" id="aside-filter">
+                            <div id="apply">
+                                APPLY
+                            </div>
+                            <div class="filter-container">
+                                <table class="filters">
+                                    <tbody>
+                                        <tr>
+                                            <td class="key block">Maps:</td>
+                                            <td class="value block" id="">
+                                                <ul id="maps-ul">
+                                                    <li><input type="checkbox" id="Azagor" checked><label for="Azagor">AZAGOR</label></li>
+                                                    <li><input type="checkbox" id="District" checked><label for="District">DISTRICT</label></li>
+                                                    <li><input type="checkbox" id="Wakistan" checked><label for="Wakistan">WAKISTAN</label></li>
+                                                    <li><input type="checkbox" id="Namak" checked><label for="Namak">NAMAK</label></li>
+                                                    <li><input type="checkbox" id="Salhan" checked><label for="Salhan">SALHAN</label></li>
+                                                    <li><input type="checkbox" id="MultuIslands" checked><label for="MultuIslands">MULTUISLANDS</label></li>
+                                                    <li><input type="checkbox" id="SandySunset" checked><label for="SandySunset">SANDYSUNSET</label></li>
+                                                    <li><input type="checkbox" id="Eduardovo" checked><label for="Eduardovo">EDUARDOVO</label></li>
+                                                    <li><input type="checkbox" id="Dustydew" checked><label for="Dustydew">DUSTYDEW</label></li>
+                                                    <li><input type="checkbox" id="WineParadise" checked><label for="WineParadise">WINEPARADISE</label></li>
+                                                    <li><input type="checkbox" id="Lonovo" checked><label for="Lonovo">LONOVO</label></li>
+                                                    <li><input type="checkbox" id="Construction" checked><label for="Construction">CONSTRUCTION</label></li>
+                                                    <li><input type="checkbox" id="OilDunes" checked><label for="OilDunes">OILDUNES</label></li>
+                                                    <li><input type="checkbox" id="Basra" checked><label for="Basra">BASRA</label></li>
+                                                    <li><input type="checkbox" id="River" checked><label for="River">RIVER</label></li>
+                                                    <li><input type="checkbox" id="Valley" checked><label for="Valley">VALLEY</label></li>
+                                                    <li><input type="checkbox" id="Frugis" checked><label for="Frugis">FRUGIS</label></li>
+                                                    <li><input type="checkbox" id="Isle" checked><label for="Isle">ISLE</label></li>
+                                                    <li><input type="checkbox" id="TensaTown" checked><label for="TensaTown">TENSATOWN</label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key block">Map Sizes:</td>
+                                            <td class="value block" id="">
+                                                <ul id="mapsize-ul">
+                                                    <li><input type="checkbox" id="Ultra" checked><label for="Ultra">Ultra</label></li>
+                                                    <li><input type="checkbox" id="Big" checked><label for="Big">Big</label></li>
+                                                    <li><input type="checkbox" id="Medium" checked><label for="Medium">Medium</label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key block">Regions:</td>
+                                            <td class="value block" id="">
+                                                <ul id="regions-ul">
+                                                    <li><input type="checkbox" id="Australia_Central" checked><label for="Australia_Central">Australia_Central</label></li>
+                                                    <li><input type="checkbox" id="America_Central" checked><label for="America_Central">America_Central</label></li>
+                                                    <li><input type="checkbox" id="Europe_Central" checked><label for="Europe_Central">Europe_Central</label></li>
+                                                    <li><input type="checkbox" id="Brazil_Central" checked><label for="Brazil_Central">Brazil_Central</label></li>
+                                                    <li><input type="checkbox" id="Japan_Central" checked><label for="Japan_Central">Japan_Central</label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key block">Gamemodes:</td>
+                                            <td class="value block" id="">
+                                                <ul id="gamemodes-ul">
+                                                    <li><input type="checkbox" id="CONQ" checked><label for="CONQ">CONQ</label></li>
+                                                    <li><input type="checkbox" id="DOMI" checked><label for="DOMI">DOMI</label></li>
+                                                    <li><input type="checkbox" id="FRONTLINE" checked><label for="FRONTLINE">FRONTLINE</label></li>
+                                                    <li><input type="checkbox" id="RUSH" checked><label for="RUSH">RUSH</label></li>
+                                                    <li><input type="checkbox" id="INFCONQ" checked><label for="INFCONQ">INFCONQ</label></li>
+                                                    <li><input type="checkbox" id="CASHRUN" checked><label for="CASHRUN">CASHRUN</label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </aside>
+
+
                     <table class="servers-list">
                         <thead>
                             <tr>
                                 <th class="server-info" colspan="2">
                                     NAME
                                 </th>
-                                <th class="player-count">
+                                <th class="player-count" id="player-count">
                                     <a>PLAYERS</a>
                                 </th>
-                                <th class="server-hz">
+                                <th class="server-hz" id="tick-count">
                                     <a>TICK</a>
                                 </th>
                             </tr>
@@ -481,6 +625,10 @@
         </template>
 
         <script>
+            const UrlParams = new URLSearchParams(window.location.search)
+            const Sort = UrlParams.get("sort") //players
+            const Filter = UrlParams.get("filter") //null
+
             let width = screen.width;
 
             const ServerBrowser = document.getElementById("server-browser");
@@ -511,6 +659,105 @@
 
             var Selected = null;
 
+            const PlayerCount = document.getElementById("player-count")
+
+            PlayerCount.addEventListener("click", e => {
+                const SortAppend = "?sort=players"
+                const FilterAppend = Filter!==null ? "filter=" + Filter : ""
+                const NewLocation = SortAppend + "&" + FilterAppend
+                window.location.href = "server-browser.html" + NewLocation
+            })
+
+            const TickCount = document.getElementById("tick-count")
+
+            TickCount.addEventListener("click", e => {
+                const SortAppend = "?sort=tick"
+                const FilterAppend = Filter!==null ? "filter=" + Filter : ""
+                const NewLocation = SortAppend + "&" + FilterAppend
+                window.location.href = "server-browser.html" + NewLocation
+            })
+
+            const Apply = document.getElementById("apply")
+
+            Apply.addEventListener("click", e => {
+                const RegionList = document.getElementById("regions-ul")
+                const RegionCheckbox = RegionList.querySelectorAll("input")
+                const MapSizesList = document.getElementById("mapsize-ul")  
+                const MapSizesCheckbox = MapSizesList.querySelectorAll("input")
+                const MapsList = document.getElementById("maps-ul")
+                const MapsCheckbox = MapsList.querySelectorAll("input")
+                const GamemodesList = document.getElementById("gamemodes-ul")
+                const GamemodesCheckbox = GamemodesList.querySelectorAll("input")
+
+                let RegionAppend = "region("
+                let MapSizesAppend = "mapsize("
+                let MapsAppend = "map("
+                let GamemodesAppend = "gamemode("
+                const SortAppend = "?sort=" + Sort
+
+                RegionCheckbox.forEach(Checkbox => {
+                    RegionAppend += Checkbox.checked ? Checkbox.id + "|" : ""
+                })
+
+                MapSizesCheckbox.forEach(Checkbox => {
+                    MapSizesAppend += Checkbox.checked ? Checkbox.id + "|" : ""
+                })
+
+                MapsCheckbox.forEach(Checkbox => {
+                    MapsAppend += Checkbox.checked ? Checkbox.id + "|" : ""
+                })
+
+                GamemodesCheckbox.forEach(Checkbox => {
+                    GamemodesAppend += Checkbox.checked ? Checkbox.id + "|" : ""
+                })
+
+                const NewLocation = SortAppend + "&filter=" + RegionAppend + ")," + MapSizesAppend + ")," + MapsAppend + ")," + GamemodesAppend + "),"
+
+                window.location.href = "server-browser.html" + NewLocation
+            })
+
+            if (Filter) {
+                const FilterArray = Filter.split(",")
+
+                FilterArray.forEach(FilterLooped => {
+                    const FilterParams = FilterLooped.split(/[()]/);
+
+                    if (FilterParams[0] === "region") {
+                        const RegionsArray = FilterParams[1].split("|")
+                        const RegionList = document.getElementById("regions-ul")
+                        const RegionCheckbox = RegionList.querySelectorAll("input")
+
+                        RegionCheckbox.forEach(Checkbox => {
+                            Checkbox.checked = RegionsArray.includes(Checkbox.id) ? true : false
+                        })
+                    } else if (FilterParams[0] === "mapsize") {
+                        const MapSizesArray = FilterParams[1].split("|")
+                        const MapSizesList = document.getElementById("mapsize-ul")
+                        const MapSizesCheckbox = MapSizesList.querySelectorAll("input")
+
+                        MapSizesCheckbox.forEach(Checkbox => {
+                            Checkbox.checked = MapSizesArray.includes(Checkbox.id) ? true : false
+                        })
+                    } else if (FilterParams[0] === "map") {
+                        const MapsArray = FilterParams[1].split("|")
+                        const MapsList = document.getElementById("maps-ul")
+                        const MapsCheckbox = MapsList.querySelectorAll("input")
+
+                        MapsCheckbox.forEach(Checkbox => {
+                            Checkbox.checked = MapsArray.includes(Checkbox.id) ? true : false
+                        })
+                    } else if (FilterParams[0] === "gamemode") {
+                        const GamemodesArray = FilterParams[1].split("|")
+                        const GamemodesList = document.getElementById("gamemodes-ul")
+                        const GamemodesCheckbox = GamemodesList.querySelectorAll("input")
+
+                        GamemodesCheckbox.forEach(Checkbox => {
+                            Checkbox.checked = GamemodesArray.includes(Checkbox.id) ? true : false
+                        })
+                    }
+                })
+            }
+
 
             async function GetIndexData() {
                 const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
@@ -534,7 +781,39 @@
                 })
             }
 
-            function RenderIndexData(data) {
+            function RenderIndexData(data, FilterParam, SortParam) {
+                if (FilterParam) {
+                    const FilterArray = FilterParam.split(",")
+
+                    FilterArray.forEach(FilterLooped => {
+                        const FilterParams = FilterLooped.split(/[()]/);
+
+                        if (FilterParams[0] === "region") {
+                            const RegionsArray = FilterParams[1].split("|")
+                            data = data.filter((element) => RegionsArray.includes(element.Region));
+                        } else if (FilterParams[0] === "mapsize") {
+                            const MapSizesArray = FilterParams[1].split("|")
+                            data = data.filter((element) => MapSizesArray.includes(element.MapSize));
+                        } else if (FilterParams[0] === "map") {
+                            const MapsArray = FilterParams[1].split("|")
+                            data = data.filter((element) => MapsArray.includes(element.Map));
+                        } else if (FilterParams[0] === "gamemode") {
+                            const GamemodesArray = FilterParams[1].split("|")
+                            data = data.filter((element) => GamemodesArray.includes(element.Gamemode));
+                        } else if (FilterParams[0] === "isOfficial") {
+                            data = data.filter((element) => element.IsOfficial == true);
+                        } else if (FilterParams[0] === "notOfficial") {
+                            data = data.filter((element) => element.IsOfficial == false);
+                        }
+                    })
+                }
+
+                if (SortParam === "players") {
+                    data.sort((a, b) => b.Players - a.Players)
+                } else if (SortParam === "tick") {
+                    data.sort((a, b) => b.Hz - a.Hz)
+                }
+
                 data.forEach(Server => {
                         let ServerItem = document.getElementById(Server.Name)
                         var Append = false
@@ -617,7 +896,6 @@
                             IsFull = true
                             if (ServerItem == Selected) { return }
 
-                            console.log(ServerItem)
                             ServerItem.className = "server-full"
                             ServerItem.querySelector('div#server-details').className = "server-full-text"
                         }
@@ -690,7 +968,7 @@
             function UpdateIndexData() {
                 GetIndexData().then(Data => {
                     ClearRemovedServers(Data)
-                    RenderIndexData(Data)
+                    RenderIndexData(Data, Filter, Sort)
                 })
             }
 
