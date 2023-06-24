@@ -339,6 +339,12 @@
                                 <p>NIGHT SERVERS</p>
                             </a>
                         </div>
+                        <div>
+                            <a>
+                                <h1 id="inqueue-servers">↻</h1>
+                                <p>IN QUEUE</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
                 <section id="map-stats">
@@ -501,6 +507,7 @@
             const MinimalStatsUnofficialServers = document.getElementById('unofficial-servers');
             const MinimalStatsDay = document.getElementById('day-servers');
             const MinimalStatsNight = document.getElementById('night-servers');
+            const MinimalStatsInQueue = document.getElementById('inqueue-servers');
 
             const MapStats = document.getElementById("map-stats");
             MapStats.style.width = width/3 + "px";
@@ -534,6 +541,7 @@
                     .then(response => response.json())
                     .then(Data => {
                         let totalPlayers = 0;
+                        let inQueue = 0;
                         let officialServers = 0;
                         let day = 0;
                         let night = 0;
@@ -545,6 +553,7 @@
 
                         Data.forEach(Server => {
                             totalPlayers += Server.Players
+                            inQueue += Server.QueuePlayers
                             officialServers += Server.IsOfficial ? 1 : 0
                             day += (Server.DayNight === "Day") ? 1 : 0
                             night += (Server.DayNight === "Night") ? 1 : 0
@@ -616,7 +625,8 @@
                             "regions": regions,
                             "day": day,
                             "night": night,
-                            "mapsize": mapsize
+                            "mapsize": mapsize,
+                            "inqueue": inQueue
                         }
                 })
 
@@ -630,6 +640,7 @@
                 MinimalStatsUnofficialServers.innerText = OverviewData["unofficial-servers"]
                 MinimalStatsDay.innerText = OverviewData["day"]
                 MinimalStatsNight.innerText = OverviewData["night"]
+                MinimalStatsInQueue.innerText = OverviewData["inqueue"]
 
                 OverviewData.maps.sort((a,b) => b.Players - a.Players)
 
