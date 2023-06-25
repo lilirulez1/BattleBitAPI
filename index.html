@@ -640,7 +640,16 @@
                     const PlayerCount = mapData.Players;
                     const ServerCount = mapData.Servers;
 
-                    const Clone = MapStatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(MapName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = MapStatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("div").id = MapName
+                        Append = true
+                    }
+
                     const MapThumbnail = Clone.querySelector("img#map-thumbnail");
                     const MapAnchor = Clone.querySelector("a");
                     const MapNameElement = Clone.querySelector("h1#name");
@@ -654,7 +663,9 @@
 
                     MapAnchor.href = "map-info.html?mapName=" + MapName
 
-                    MapStatsGrid.appendChild(Clone)
+                    if (Append) {
+                        MapStatsGrid.appendChild(Clone)
+                    }
                 })
 
                 OverviewData.gamemodes.sort((a,b) => b.Players - a.Players)
@@ -664,7 +675,16 @@
                     const PlayerCount = gamemodeData.Players;
                     const ServerCount = gamemodeData.Servers;
 
-                    const Clone = GamemodeStatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(GamemodeName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = GamemodeStatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = GamemodeName
+                        Append = true
+                    }
+
                     const GamemodeNameElement = Clone.querySelector("span#gamemode-stats-name");
                     const GamemodePlayerCountElement = Clone.querySelector("span#gamemode-stats-players");
                     const GamemodeServerCountElement = Clone.querySelector("span#gamemode-stats-servers");
@@ -673,7 +693,9 @@
                     GamemodePlayerCountElement.innerText = PlayerCount
                     GamemodeServerCountElement.innerText = ServerCount
 
-                    GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append) {
+                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
 
                 OverviewData.regions.sort((a,b) => b.Players - a.Players)
@@ -683,7 +705,16 @@
                     const PlayerCount = regionData.Players;
                     const ServerCount = regionData.Servers;
 
-                    const Clone = RegionStatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(RegionName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = RegionStatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = RegionName
+                        Append = true
+                    }
+
                     const RegionNameElement = Clone.querySelector("span#region-stats-name");
                     const RegionPlayerCountElement = Clone.querySelector("span#region-stats-players");
                     const RegionServerCountElement = Clone.querySelector("span#region-stats-servers");
@@ -692,7 +723,9 @@
                     RegionPlayerCountElement.innerText = PlayerCount
                     RegionServerCountElement.innerText = ServerCount
 
-                    RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append) {
+                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
 
                 OverviewData.mapsize.sort((a,b) => b.Players - a.Players)
@@ -702,7 +735,16 @@
                     const PlayerCount = mapsizeData.Players;
                     const ServerCount = mapsizeData.Servers;
 
-                    const Clone = MapsizeStatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(MapsizeName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = MapsizeStatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = MapsizeName
+                        Append = true
+                    }
+
                     const MapsizeNameElement = Clone.querySelector("span#mapsize-stats-name");
                     const MapsizePlayerCountElement = Clone.querySelector("span#mapsize-stats-players");
                     const MapsizeServerCountElement = Clone.querySelector("span#mapsize-stats-servers");
@@ -711,13 +753,15 @@
                     MapsizePlayerCountElement.innerText = PlayerCount
                     MapsizeServerCountElement.innerText = ServerCount
 
-                    MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append) {
+                        MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
             }
 
             function UpdateIndexData() {
                 GetIndexData().then(Data => {
-                    ResetIndexData()
+                    //ResetIndexData()
                     RenderIndexData(Data)
                 })
             }
