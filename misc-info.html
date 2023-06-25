@@ -689,9 +689,22 @@
                     const ServerQueuePlayers = serverData.QueuePlayers
                     const ServerHz = serverData.Hz
 
-                    const Clone = ServersListTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(ServerName)
+                    var Append = false
+                    let ServerItem = document.getElementById("tr.server-item")
 
-                    const ServerItem = Clone.querySelector("tr.server-item")
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = ServersListTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = ServerName
+                        ServerItem = Clone.querySelector("tr.server-item")
+                        Append = true
+
+                        ServerItem.addEventListener("click", (e) => {
+                            window.location.href = "server-info.html?serverName=" + ServerName
+                        })
+                    }
+
                     let td = Clone.querySelectorAll("td");
 
                     const serverThumbnail = td[0]
@@ -721,11 +734,9 @@
                     MapThumbnail.src = "assets/map_thumbnails/" + ServerMap + ".png"
                     RegionFlag.src = "assets/flags/" + ServerRegion + ".png"
 
-                    ServerItem.addEventListener("click", (e) => {
-                        window.location.href = "server-info.html?serverName=" + ServerName
-                    })
-
-                    ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
+                    if (Append) {
+                        ServersListTable.querySelector("tbody#servers-list-tbody").appendChild(Clone)
+                    }
                 })
 
                 MiscData.Gamemodes.sort((a,b) => b.Players - a.Players)
@@ -735,7 +746,16 @@
                     const PlayerCount = Data.Players;
                     const ServerCount = Data.Servers;
 
-                    const Clone = StatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(GamemodeName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = StatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = GamemodeName
+                        Append = true
+                    }
+
                     const GamemodeNameElement = Clone.querySelector("span#stats-name");
                     const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
                     const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
@@ -744,7 +764,9 @@
                     GamemodePlayerCountElement.innerText = PlayerCount
                     GamemodeServerCountElement.innerText = ServerCount
 
-                    GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append) {
+                        GamemodeStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
                 
                 MiscData.MapSizes.sort((a,b) => b.Players - a.Players)
@@ -754,7 +776,16 @@
                     const PlayerCount = Data.Players;
                     const ServerCount = Data.Servers;
 
-                    const Clone = StatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(GamemodeName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = StatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = GamemodeName
+                        Append = true
+                    }
+
                     const GamemodeNameElement = Clone.querySelector("span#stats-name");
                     const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
                     const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
@@ -763,7 +794,9 @@
                     GamemodePlayerCountElement.innerText = PlayerCount
                     GamemodeServerCountElement.innerText = ServerCount
 
-                    MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append) {
+                        MapsizeStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
                                     
                 MiscData.Regions.sort((a,b) => b.Players - a.Players)
@@ -773,7 +806,16 @@
                     const PlayerCount = Data.Players;
                     const ServerCount = Data.Servers;
 
-                    const Clone = StatsTemplate.content.cloneNode(true);
+                    let Clone = document.getElementById(GamemodeName)
+                    var Append = false
+
+                    if (!Clone) {
+                        console.log("Newclone")
+                        Clone = StatsTemplate.content.cloneNode(true);
+                        Clone.querySelector("tr").id = GamemodeName
+                        Append = true
+                    }
+
                     const GamemodeNameElement = Clone.querySelector("span#stats-name");
                     const GamemodePlayerCountElement = Clone.querySelector("span#stats-players");
                     const GamemodeServerCountElement = Clone.querySelector("span#stats-servers");
@@ -782,13 +824,14 @@
                     GamemodePlayerCountElement.innerText = PlayerCount
                     GamemodeServerCountElement.innerText = ServerCount
 
-                    RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    if (Append){
+                        RegionStatsTable.querySelector("tbody").appendChild(Clone)
+                    }
                 })
             }
 
             function UpdateIndexData() {
                 GetIndexData().then(Data => {
-                    ResetIndexData()
                     RenderIndexData(Data)
                 })
             }
