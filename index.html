@@ -296,6 +296,12 @@
                     <div class="minimal-stats-grid">
                         <div>
                             <a>
+                                <h1 id="total-players">↻</h1>
+                                <p>TOTAL PLAYERS</p>
+                            </a>
+                        </div>
+                        <div>
+                            <a>
                                 <h1 id="player-count">↻</h1>
                                 <p>ONLINE PLAYERS</p>
                             </a>
@@ -499,6 +505,7 @@
             const MinimalStatsDay = document.getElementById('day-servers');
             const MinimalStatsNight = document.getElementById('night-servers');
             const MinimalStatsInQueue = document.getElementById('inqueue-servers');
+            const MinimalStatsTotalPlayers = document.getElementById('total-players');
 
             const MapStats = document.getElementById("map-stats");
             MapStats.style.width = width/3 + "px";
@@ -520,15 +527,8 @@
             const MapsizeStatsTable = document.getElementById("mapsize-stats-table");
             const MapsizeStatsTemplate = document.getElementById("mapsize-stats-template");
 
-            function ResetIndexData() {
-                MapStatsGrid.innerHTML = "";
-                GamemodeStatsTable.querySelector("tbody").innerHTML = "";
-                RegionStatsTable.querySelector("tbody").innerHTML = "";
-                MapsizeStatsTable.querySelector("tbody").innerHTML = "";
-            }
-
-            async function GetIndexData() {   
-                const Data = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
+            async function GetIndexData() {
+                const GameData = await fetch("https://publicapi.battlebit.cloud/Servers/GetServerList")
                     .then(response => response.json())
                     .then(Data => {
                         let totalPlayers = 0;
@@ -621,7 +621,7 @@
                         }
                 })
 
-                return Data
+                return GameData
             }
 
             function RenderIndexData(OverviewData) {
@@ -759,18 +759,39 @@
                 })
             }
 
+            async function GetSteamData() {
+                const SteamData = await fetch("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=671860")
+                    .then(response => response.json())
+                    .then(Data => {
+                        return Data
+                    })
+
+                return SteamData
+            }
+
+            function RenderSteamData(SteamData) {
+                MinimalStatsTotalPlayers.innerText = SteamData.response["player_count"]
+            }
+
             function UpdateIndexData() {
-                GetIndexData().then(Data => {
-                    //ResetIndexData()
-                    RenderIndexData(Data)
+                GetIndexData().then(GameData => {
+                    RenderIndexData(GameData)
+                })
+            }
+
+            function UpdateSteamData() {
+                GetSteamData().then(SteamData => {
+                    RenderSteamData(SteamData)
                 })
             }
 
             window.addEventListener('load', function () {
                 var fetchInterval = 1000;
                 UpdateIndexData()
+                UpdateSteamData()
 
                 setInterval(UpdateIndexData, fetchInterval);
+                setInterval(UpdateSteamData, 5000)
             });
         </script>
     </body>
