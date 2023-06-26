@@ -296,12 +296,6 @@
                     <div class="minimal-stats-grid">
                         <div>
                             <a>
-                                <h1 id="total-players">↻</h1>
-                                <p>TOTAL PLAYERS</p>
-                            </a>
-                        </div>
-                        <div>
-                            <a>
                                 <h1 id="player-count">↻</h1>
                                 <p>ONLINE PLAYERS</p>
                             </a>
@@ -505,7 +499,6 @@
             const MinimalStatsDay = document.getElementById('day-servers');
             const MinimalStatsNight = document.getElementById('night-servers');
             const MinimalStatsInQueue = document.getElementById('inqueue-servers');
-            const MinimalStatsTotalPlayers = document.getElementById('total-players');
 
             const MapStats = document.getElementById("map-stats");
             MapStats.style.width = width/3 + "px";
@@ -759,39 +752,17 @@
                 })
             }
 
-            async function GetSteamData() {
-                const SteamData = await fetch("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=671860&key=FB217981CDBCA744C9FCD7DDE7B2535D")
-                    .then(response => response.json())
-                    .then(Data => {
-                        return Data
-                    })
-
-                return SteamData
-            }
-
-            function RenderSteamData(SteamData) {
-                MinimalStatsTotalPlayers.innerText = SteamData.response["player_count"]
-            }
-
             function UpdateIndexData() {
                 GetIndexData().then(GameData => {
                     RenderIndexData(GameData)
                 })
             }
 
-            function UpdateSteamData() {
-                GetSteamData().then(SteamData => {
-                    RenderSteamData(SteamData)
-                })
-            }
-
             window.addEventListener('load', function () {
                 var fetchInterval = 1000;
                 UpdateIndexData()
-                UpdateSteamData()
 
                 setInterval(UpdateIndexData, fetchInterval);
-                setInterval(UpdateSteamData, 5000)
             });
         </script>
     </body>
