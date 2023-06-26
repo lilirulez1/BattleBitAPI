@@ -760,7 +760,7 @@
             }
 
             async function GetSteamData() {
-                const SteamData = await fetch("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=671860")
+                const SteamData = await fetch("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=671860&key=FB217981CDBCA744C9FCD7DDE7B2535D")
                     .then(response => response.json())
                     .then(Data => {
                         return Data
@@ -784,6 +784,8 @@
                     RenderSteamData(SteamData)
                 })
             }
+
+            FB217981CDBCA744C9FCD7DDE7B2535D
 
             window.addEventListener('load', function () {
                 var fetchInterval = 1000;
